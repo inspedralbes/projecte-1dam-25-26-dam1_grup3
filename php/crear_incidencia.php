@@ -12,6 +12,7 @@ require_once 'connexio.php';
 function crear_incidencia($conn)
 {
     // Obtenir el nom de la casa del formulari
+    $id_departament = $_POST['id_departament'];
     $data_fin = $_POST['data_fin'];
     $prioridad = $_POST['prioridad'];
     $descripcio = $_POST['descripcio'];
@@ -26,15 +27,20 @@ function crear_incidencia($conn)
     }
 
     // Preparar la consulta SQL per inserir una nova casa
-    $sql = "INSERT INTO incidencia (data_fin, prioridad, descripcio) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);  //La variable $conn la tenim per haver inclòs el fitxer connexio.php
-    $stmt->bind_param("sss", $data_fin, $prioridad, $descripcio);
+    
 
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
         echo "<p class='info'>Incidencia creada amb èxit!</p>";
     } else {
         echo "<p class='error'>Error al crear la incidencia: " . htmlspecialchars($stmt->error) . "</p>";
+    }
+    if ($id_departament == 'id_departament'){ 
+        $sql = "INSERT INTO incidencia (data_fin, prioridad, descripcio) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);  //La variable $conn la tenim per haver inclòs el fitxer connexio.php
+        $stmt->bind_param("sss", $id_departament, $data_fin, $prioridad, $descripcio);
+    } else {
+        echo "<p class='info'>No es pot assignar una incidencia en departament que no existeix.</p>";
     }
     // Tancar la declaració i la connexió
     $stmt->close();
@@ -65,7 +71,7 @@ function crear_incidencia($conn)
         ?>
         <form method="POST" action="crear_incidencia.php">
                 <label for="nom_dept">Depart</label>
-                <input type="text" id="nom_dept" name="nom_dept" placeholder="XXXXXXXXXX">
+                <input type="text" id="id_departament" name="id_departament" placeholder="XXXXXXXXXX">
                 <label for="descripcio">Descripcio</label>
                 <textarea name="descripcio" placeholder="INFO">
         </form>
@@ -74,9 +80,8 @@ function crear_incidencia($conn)
     }
     ?>
     <div id="menu">
-            <button type="submit">Crear incidencia</button>
-            <button type="submit">Info incidencia</button>
-            <button type="submit">Temps consumit per departament</button>
+            <button type="submit"><a href="">Info incidencia</a></button>
+            <button type="submit"><a href="">Temps consumit per departament</a></button>
     </div>
 </body>
 
