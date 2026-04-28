@@ -20,11 +20,10 @@
     echo "<p>El valor de la variable d'entorn VAR2 és: <strong>$v2</strong></p>";
     ?>
     <div id="menu">
-            <button type="submit">Crear incidencia</button>
-            <button type="submit">Info incidencia</button>
-            <button type="submit">Temps consumit per departament</button>
+            <button type="submit"><a href="crear_incidencia.php">Crear incidencia</a></button>
+            <button type="submit"><a href="">Info incidencia</a></button>
+            <button type="submit"><a href="">Temps consumit per departament</a></button>
     </div>
-    <p>Fi de la pàgina</p>
 </body>
 
 </html>

@@ -36,7 +36,7 @@ function crear_incidencia($conn)
         echo "<p class='error'>Error al crear la incidencia: " . htmlspecialchars($stmt->error) . "</p>";
     }
     if ($id_departament == 'id_departament'){ 
-        $sql = "INSERT INTO incidencia (data_fin, prioridad, descripcio) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO incidencia (data_fin, prioridad, descripcio) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);  //La variable $conn la tenim per haver inclòs el fitxer connexio.php
         $stmt->bind_param("sss", $data_fin, $prioridad, $descripcio);
     } else {
@@ -71,20 +71,20 @@ function crear_incidencia($conn)
         ?>
         <form method="POST" action="crear_incidencia.php">
                 <label for="nom_dept">ID departament</label>
-                <input type="text" id="id_departament" name="id_departament" placeholder="XXXXXXXXXX">
-                <label for="nom_dept">Depart</label>
-                <input type="text" id="nom_dept" name="nom_dept" placeholder="XXXXXXXXXX">
+                <input type="text" id="id_departament" name="id_departament" placeholder="XXXXXXXXXX" required>
+                <label for="nom_dept">Departament</label>
+                <input type="text" id="nom_dept" name="nom_dept" placeholder="XXXXXXXXXX" required>
                 <label for="descripcio">Descripcio</label>
-                <textarea name="descripcio" placeholder="INFO">
+                <textarea placeholder="Descripció" class="form-control" name="descripcio" id="descripcio" cols="30" rows="10" required></textarea>
                 <label for="prioridad">Prioritat</label>
-                <input type="text" id="prioritat" name="prioritat" placeholder="XXXXX">
-                <button type="submit"><a href="">Crear</a></button>
+                <input type="text" id="prioritat" name="prioritat" placeholder="XXXXX" required>
+                <div class="form-group"><button class="btn btn-success">Crear</button></div>
         </form>
         <?php
-        //Tanquem l'else
     }
     ?>
     <div id="menu">
+            <button type="submit"><a href="crear_incidencia.php">Crear incidencia</a></button>
             <button type="submit"><a href="">Info incidencia</a></button>
             <button type="submit"><a href="">Temps consumit per departament</a></button>
     </div>
