@@ -9,14 +9,17 @@ h1 {
 }
 .encabezado{
     margin: 50px 50px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    position: relative;
-    margin-top: 20px;
 }
 footer{
-    margin: 50px 50px;
+    background-color: blue;
+    height: 100%;
+    width: 100%;
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+    gap: 20px;  
+    padding: 20px 0;
+    width: 100%;         
 }
 table > tr > td{
     margin: 20px;    
@@ -33,9 +36,14 @@ button > a {
     color: black;
 }
 .menu-btns {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    position: relative;
-    margin-top: 20px;
+    display: flex;            
+    flex-direction: column;      
+    justify-content: center;   
+    align-items: center;      
+    gap: 15px;                
+    width: 100%;             
+    padding: 20px 0;
+}
+.form-button{
+    width: 300px;
 }

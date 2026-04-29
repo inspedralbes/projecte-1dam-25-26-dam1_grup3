@@ -81,11 +81,21 @@ function crear_incidencia($conn)
         <?php
     }
     ?>
-    <div id="menu">
-            <button type="submit"><a href="crear_incidencia.php">Crear incidencia</a></button>
-            <button type="submit"><a href="">Info incidencia</a></button>
-            <button type="submit"><a href="">Temps consumit per departament</a></button>
-    </div>
+    <footer id="menu">
+        <table>
+            <tr>
+                <td>
+                    <button type="submit" class="form-button"><a href="crear_incidencia.php">Crear incidencia</a></button>
+                </td>
+                <td>
+                    <button type="submit" class="form-button"><a href="detall_incidencia.php">Info incidencia</a></button>
+                </td>
+                <td>
+                    <button type="submit" class="form-button"><a href="llistar.php">Temps consumit per departament</a></button>
+                </td>
+            </tr>
+        </table>
+    </footer>
 </body>
 
 </html>
