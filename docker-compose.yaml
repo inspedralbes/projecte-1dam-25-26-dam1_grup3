@@ -12,7 +12,7 @@ services:
       context: ./images
       dockerfile: Dockerfile_php
     ports:
-      - "8080:80"
+      - "8085:80"
     volumes:
       - ./php:/var/www/html
     environment:
