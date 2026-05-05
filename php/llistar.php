@@ -15,11 +15,11 @@ require_once 'connexio.php';
 </head>
 
 <body>
-    <h1>Llistat de cases</h1>
+    <h1>Llistat de incidencies</h1>
     <?php
 
     // Consulta SQL per obtenir totes les files de la taula 'cases'
-    $sql = "SELECT id, name FROM cases";
+    $sql = "SELECT ID_Incidencia, ID_Tecnic, Descripcio FROM INCIDENCIA";
     $result = $conn->query($sql);
 
     // Comprovar si hi ha resultats
@@ -27,8 +27,8 @@ require_once 'connexio.php';
 
         // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
         while ($row = $result->fetch_assoc()) {
-            echo "<p>ID: " . $row["id"] . " - Nom: " . htmlspecialchars($row["name"]) . "";
-            echo " <a href='esborrar.php?id=" . $row["id"] . "'>Esborrar</a></p>";
+            echo "<p>ID Incidencia: " . $row["ID_Incidencia"] . " - ID Tecnic: " . ($row["ID_Tecnic"]) . " - Descripció: " . htmlspecialchars($row["Descripcio"]) . "";
+            echo " <a href='esborrar.php?id=" . $row["ID_Incidencia"] . "'>Esborrar</a></p>";
         }
 
     } else {
