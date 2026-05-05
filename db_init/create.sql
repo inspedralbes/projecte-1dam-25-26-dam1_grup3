@@ -28,17 +28,17 @@ FLUSH PRIVILEGES;
 
 USE `persones`;
 
-DROP TABLE IF EXISTS `Actuacions`;
-CREATE TABLE `Actuacions` (
-                              `ID_Incidencia` int NOT NULL,
-                              `ID_Actuacion` int NOT NULL,
-                              `Descripcio` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                              `Data_Actuacion` date DEFAULT NULL,
-                              `FIN` tinyint(1) DEFAULT '0',
-                              `Visible` tinyint(1) DEFAULT '1',
-                              `Temps` decimal(5,2) DEFAULT NULL,
-                              PRIMARY KEY (`ID_Incidencia`,`ID_Actuacion`),
-                              CONSTRAINT `fk_actuacion_incidencia` FOREIGN KEY (`ID_Incidencia`) REFERENCES `INCIDENCIA` (`ID_Incidencia`) ON DELETE CASCADE
+DROP TABLE IF EXISTS `Actuaciones`;
+CREATE TABLE `Actuaciones` (
+                               `ID_Actuacion` int NOT NULL AUTO_INCREMENT, -- Ahora es el identificador único y auto-incremental
+                               `ID_Incidencia` int NOT NULL,
+                               `Descripcio` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                               `Data_Actuacion` date DEFAULT NULL,
+                               `FIN` tinyint(1) DEFAULT '0',
+                               `Visible` tinyint(1) DEFAULT '1',
+                               `Temps` decimal(5,2) DEFAULT NULL,
+                               PRIMARY KEY (`ID_Actuacion`), -- Definida como PK única
+                               CONSTRAINT `fk_actuacion_incidencia` FOREIGN KEY (`ID_Incidencia`) REFERENCES `INCIDENCIA` (`ID_Incidencia`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -102,3 +102,7 @@ INSERT INTO `TIPOLOGIA` (`ID_Tipo`, `Nom`) VALUES
                                                (3,	'Xarxa');
 
 -- 2026-05-05 07:39:24 UTC
+
+INSERT INTO `Actuaciones` (`ID_Actuacion`, `ID_Incidencia`, `Descripcio`, `Data_Actuacion`, `FIN`, `Visible`, `Temps`) VALUES
+    (1,	1,	'He conectado el cable',	NULL,	0,	1,	30.00);
+-- 2026-05-05 08:38:22 UTC
