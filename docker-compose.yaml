@@ -12,7 +12,7 @@ services:
       context: ./images
       dockerfile: Dockerfile_php
     ports:
-      - "8085:80"
+      - "8080:80"
     volumes:
       - ./php:/var/www/html
     environment:
@@ -40,7 +40,7 @@ services:
 
     # La carpeta de mysql ha d'estar al .gitignore per no pujar-la al repositori
     volumes:
-      - ./db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
       - ./db_init:/docker-entrypoint-initdb.d
 
 
@@ -53,3 +53,21 @@ services:
       - "8081:8080"
     depends_on:
       - db
+# Per veure tots els volums
+#    docker volume ls
+#
+# Per esborrar un volum concret
+#    docker volume rm nom  #pero si un contenidor el fa servir no et deixarà
+#
+# La forma més còmode en aquests entorns simples és esborrar-ho completament
+#  tot (contenidors i volums, però no les imatges)
+#    docker compose down -v
+# aquesta ordre la pots executar després d'un down normal, si vols esborrar-ho tot,
+# no cal torar a aixecar-ho per esborrar-ho tot.
+#
+# Pero si voleu només esborrar el volum de la BD (per tal de reinicia la BBDD) aleshores podeu fer-ho:
+#    docker compose stop dh
+#    docker compose rm db
+#    docker volume rm dockerphp_db_data
+volumes:
+  db_data:

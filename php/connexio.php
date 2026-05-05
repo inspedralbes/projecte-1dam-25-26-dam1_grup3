@@ -1,5 +1,4 @@
 <?php
-
 // Tots els fitxers PHP que utilitzin la connexió a la base de dades han de
 // incloure aquest fitxer al principi del codi PHP.
 // Un cop inclòs, podreu utilitzar la variable $conn per a fer les consultes a la base de dades.

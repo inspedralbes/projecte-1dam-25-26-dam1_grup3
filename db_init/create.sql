@@ -14,186 +14,91 @@ SET time_zone = "+00:00";
 -- Per assegurar-nes de que la codificació dels caràcters d'aquest script és la correcta
 SET NAMES utf8mb4;
 
+-- Adminer 5.4.2 MySQL 9.3.0 dump
 
-CREATE DATABASE IF NOT EXISTS persones
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
+SET foreign_key_checks = 0;
 
--- Donem permisos a l'usuari 'usuari' per accedir a la base de dades 'persones'
--- sinó, aquest usuari no podrà veure la base de dades i no podrà accedir a les taules
+
+DROP DATABASE IF EXISTS `persones`;
+CREATE DATABASE `persones` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+
 GRANT ALL PRIVILEGES ON persones.* TO 'usuari'@'%';
 FLUSH PRIVILEGES;
 
--- Després de crear la base de dades, cal seleccionar-la per treballar-hi
-USE persones;
+USE `persones`;
 
-    /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de dades: `a25alarosure_grup3`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de la taula `Actuacions`
---
-
+DROP TABLE IF EXISTS `Actuacions`;
 CREATE TABLE `Actuacions` (
-                              `ID_Incidencia` int(11) NOT NULL,
-                              `ID_Actuacion` int(11) NOT NULL,
-                              `Descripcio` varchar(500) DEFAULT NULL,
+                              `ID_Incidencia` int NOT NULL,
+                              `ID_Actuacion` int NOT NULL,
+                              `Descripcio` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                               `Data_Actuacion` date DEFAULT NULL,
-                              `FIN` tinyint(1) DEFAULT 0,
-                              `Visible` tinyint(1) DEFAULT 1,
-                              `Temps` decimal(5,2) DEFAULT NULL
+                              `FIN` tinyint(1) DEFAULT '0',
+                              `Visible` tinyint(1) DEFAULT '1',
+                              `Temps` decimal(5,2) DEFAULT NULL,
+                              PRIMARY KEY (`ID_Incidencia`,`ID_Actuacion`),
+                              CONSTRAINT `fk_actuacion_incidencia` FOREIGN KEY (`ID_Incidencia`) REFERENCES `INCIDENCIA` (`ID_Incidencia`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
 
---
--- Estructura de la taula `DEPARTAMENT`
---
-
+DROP TABLE IF EXISTS `DEPARTAMENT`;
 CREATE TABLE `DEPARTAMENT` (
-                               `ID_Departament` int(11) NOT NULL,
-                               `Nom` varchar(100) NOT NULL
+                               `ID_Departament` int NOT NULL AUTO_INCREMENT,
+                               `Nom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+                               PRIMARY KEY (`ID_Departament`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
+INSERT INTO `DEPARTAMENT` (`ID_Departament`, `Nom`) VALUES
+                                                        (1,	'Sistemes'),
+                                                        (2,	'Català'),
+                                                        (3,	'Castellà');
 
---
--- Estructura de la taula `INCIDENCIA`
---
-
+DROP TABLE IF EXISTS `INCIDENCIA`;
 CREATE TABLE `INCIDENCIA` (
-                              `ID_Incidencia` int(11) NOT NULL,
-                              `ID_Departament` int(11) NOT NULL,
-                              `Data_Inici` timestamp NOT NULL DEFAULT current_timestamp(),
-                              `ID_Tipo` int(11) DEFAULT NULL,
+                              `ID_Incidencia` int NOT NULL AUTO_INCREMENT,
+                              `ID_Departament` int NOT NULL,
+                              `Data_Inici` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              `ID_Tipo` int DEFAULT NULL,
                               `Data_FIN` date DEFAULT NULL,
-                              `ID_Tecnic` int(11) DEFAULT NULL,
-                              `Prioridad` enum('Baja','Media','Alta','Crítica') DEFAULT NULL,
-                              `Descripcio` varchar(500) NOT NULL
+                              `ID_Tecnic` int DEFAULT NULL,
+                              `Prioridad` enum('Baja','Media','Alta','Crítica') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                              `Descripcio` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+                              PRIMARY KEY (`ID_Incidencia`),
+                              KEY `fk_incidencia_dept` (`ID_Departament`),
+                              KEY `fk_incidencia_tipo` (`ID_Tipo`),
+                              KEY `fk_incidencia_tecnic` (`ID_Tecnic`),
+                              CONSTRAINT `fk_incidencia_dept` FOREIGN KEY (`ID_Departament`) REFERENCES `DEPARTAMENT` (`ID_Departament`),
+                              CONSTRAINT `fk_incidencia_tecnic` FOREIGN KEY (`ID_Tecnic`) REFERENCES `TECNIC` (`ID_Tecnic`),
+                              CONSTRAINT `fk_incidencia_tipo` FOREIGN KEY (`ID_Tipo`) REFERENCES `TIPOLOGIA` (`ID_Tipo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
+INSERT INTO `INCIDENCIA` (`ID_Incidencia`, `ID_Departament`, `Data_Inici`, `ID_Tipo`, `Data_FIN`, `ID_Tecnic`, `Prioridad`, `Descripcio`) VALUES
+                                                                                                                                              (1,	1,	'2026-05-05 07:32:37',	2,	NULL,	1,	'Baja',	'Tot trencat'),
+                                                                                                                                              (2,	3,	'2026-05-05 07:33:30',	3,	NULL,	3,	'Alta',	'No funciona internet');
 
---
--- Estructura de la taula `TECNIC`
---
-
+DROP TABLE IF EXISTS `TECNIC`;
 CREATE TABLE `TECNIC` (
-                          `ID_Tecnic` int(11) NOT NULL,
-                          `Nom` varchar(100) NOT NULL,
-                          `ID_Departament` int(11) DEFAULT NULL
+                          `ID_Tecnic` int NOT NULL AUTO_INCREMENT,
+                          `Nom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+                          PRIMARY KEY (`ID_Tecnic`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
+INSERT INTO `TECNIC` (`ID_Tecnic`, `Nom`) VALUES
+                                              (1,	'Marco'),
+                                              (2,	'Alan'),
+                                              (3,	'Joan');
 
---
--- Estructura de la taula `TIPOLOGIA`
---
-
+DROP TABLE IF EXISTS `TIPOLOGIA`;
 CREATE TABLE `TIPOLOGIA` (
-                             `ID_Tipo` int(11) NOT NULL,
-                             `Nom` varchar(100) NOT NULL
+                             `ID_Tipo` int NOT NULL AUTO_INCREMENT,
+                             `Nom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+                             PRIMARY KEY (`ID_Tipo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Índexs per a les taules bolcades
---
+INSERT INTO `TIPOLOGIA` (`ID_Tipo`, `Nom`) VALUES
+                                               (1,	'Teclat'),
+                                               (2,	'Ratoli'),
+                                               (3,	'Xarxa');
 
---
--- Índexs per a la taula `Actuacions`
---
-ALTER TABLE `Actuacions`
-    ADD PRIMARY KEY (`ID_Incidencia`,`ID_Actuacion`);
-
---
--- Índexs per a la taula `DEPARTAMENT`
---
-ALTER TABLE `DEPARTAMENT`
-    ADD PRIMARY KEY (`ID_Departament`);
-
---
--- Índexs per a la taula `INCIDENCIA`
---
-ALTER TABLE `INCIDENCIA`
-    ADD PRIMARY KEY (`ID_Incidencia`),
-  ADD KEY `fk_incidencia_dept` (`ID_Departament`),
-  ADD KEY `fk_incidencia_tipo` (`ID_Tipo`),
-  ADD KEY `fk_incidencia_tecnic` (`ID_Tecnic`);
-
---
--- Índexs per a la taula `TECNIC`
---
-ALTER TABLE `TECNIC`
-    ADD PRIMARY KEY (`ID_Tecnic`),
-  ADD KEY `fk_tecnic_dept` (`ID_Departament`);
-
---
--- Índexs per a la taula `TIPOLOGIA`
---
-ALTER TABLE `TIPOLOGIA`
-    ADD PRIMARY KEY (`ID_Tipo`);
-
---
--- AUTO_INCREMENT per les taules bolcades
---
-
---
--- AUTO_INCREMENT per la taula `DEPARTAMENT`
---
-ALTER TABLE `DEPARTAMENT`
-    MODIFY `ID_Departament` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la taula `INCIDENCIA`
---
-ALTER TABLE `INCIDENCIA`
-    MODIFY `ID_Incidencia` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la taula `TECNIC`
---
-ALTER TABLE `TECNIC`
-    MODIFY `ID_Tecnic` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la taula `TIPOLOGIA`
---
-ALTER TABLE `TIPOLOGIA`
-    MODIFY `ID_Tipo` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restriccions per a les taules bolcades
---
-
---
--- Restriccions per a la taula `Actuacions`
---
-ALTER TABLE `Actuacions`
-    ADD CONSTRAINT `fk_actuacion_incidencia` FOREIGN KEY (`ID_Incidencia`) REFERENCES `INCIDENCIA` (`ID_Incidencia`) ON DELETE CASCADE;
-
---
--- Restriccions per a la taula `INCIDENCIA`
---
-ALTER TABLE `INCIDENCIA`
-    ADD CONSTRAINT `fk_incidencia_dept` FOREIGN KEY (`ID_Departament`) REFERENCES `DEPARTAMENT` (`ID_Departament`),
-  ADD CONSTRAINT `fk_incidencia_tecnic` FOREIGN KEY (`ID_Tecnic`) REFERENCES `TECNIC` (`ID_Tecnic`),
-  ADD CONSTRAINT `fk_incidencia_tipo` FOREIGN KEY (`ID_Tipo`) REFERENCES `TIPOLOGIA` (`ID_Tipo`);
-
---
--- Restriccions per a la taula `TECNIC`
---
-ALTER TABLE `TECNIC`
-    ADD CONSTRAINT `fk_tecnic_dept` FOREIGN KEY (`ID_Departament`) REFERENCES `DEPARTAMENT` (`ID_Departament`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- 2026-05-05 07:39:24 UTC
