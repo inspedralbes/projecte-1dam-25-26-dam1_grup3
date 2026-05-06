@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estils.css">
+    <title>Crear incidencia</title>
+</head>
+
+<body>
+    <div class = "encabezado">
+        <div class="nav_menu">
+            <button type="submit" class="nav_btn"><a href="index.html">Pagina principal</a></button>
+        </div>
+        <h1 class="text-center">GI3P</h1>
+    <h1>Crear incidencia</h1>
+        <form method="POST" action="crear_incidencia.php">
+                <label for="nom_dept">ID departament</label>
+                <input type="text" id="id_departament" name="id_departament" placeholder="XXXXXXXXXX" required>
+                <label for="nom_dept">Departament</label>
+                <input type="text" id="nom_dept" name="nom_dept" placeholder="XXXXXXXXXX" required>
+                <label for="descripcio">Descripcio</label>
+                <textarea placeholder="Descripció" class="form-control" name="descripcio" id="descripcio" cols="30" rows="10" required></textarea>
+                <label for="prioridad">Prioritat</label>
+                <input type="text" id="prioritat" name="prioritat" placeholder="XXXXX" required>
+                <div class="form-group"><button class="btn btn-success">Crear</button></div>
+        </form>
+        <footer id="menu">
+        <table>
+            <tr>
+                <td>
+                    <button type="submit" class="form-button"><a href="crear_incidencia.php">Crear incidencia</a></button>
+                </td>
+                <td>
+                    <button type="submit" class="form-button"><a href="detall_incidencia.php">Info incidencia</a></button>
+                </td>
+                <td>
+                    <button type="submit" class="form-button"><a href="llistar.php">Temps consumit per departament</a></button>
+                </td>
+            </tr>
+        </table>
+    </footer>
+</body>
+
+</html>
