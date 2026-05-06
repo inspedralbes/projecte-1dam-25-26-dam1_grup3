@@ -1,75 +1,76 @@
 <?php
 require_once 'connexio.php';
+
+// Verificamos la conexión
 if ($conn->connect_error) {
-    echo "<p>Error de connexió: " . htmlspecialchars($conn->connect_error) . "</p>";
     die("Error de connexió: " . $conn->connect_error);
 }
-function mostrar_incidencia($conn){
-    $id_departament = $_POST['id_departament'];
-    $data_fin = $_POST['data_fin'];
-    $prioridad = $_POST['prioridad'];
-    $descripcio = $_POST['descripcio'];
 
-    $sql = "SELECT * FROM incidencia
-    ORDER BY prioridad DESC";
-}
-if (isset($stmt) && $stmt !== null) {
+// 1. Lógica de procesamiento de datos (antes de cualquier HTML)
+$resultados = [];
+$error_msg = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
+    $id_a_buscar = $_POST['ID_Incidencia'];
+
+    // Preparamos la sentencia
+    $stmt = $conn->prepare("SELECT ID_Actuacion, descripcio FROM Actuaciones WHERE ID_Incidencia = ?");
+
+    // "i" si el ID es un número entero, "s" si es texto.
+    $stmt->bind_param("i", $id_a_buscar);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $resultados[] = $row;
+        }
+    } else {
+        $error_msg = "No s'han trobat actuacions per a aquesta ID.";
+    }
     $stmt->close();
-}
-
-// Y asegúrate de que $conn también se cierre solo si existe
-if (isset($conn) && $conn !== null) {
-    $conn->close();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="ca">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veure incidencia</title>
+    <title>Veure incidència</title>
 </head>
 <body>
-    <form>
-    <label for="nom_inci">ID incidencia</label>
-                    <input type="text" id="id_incidencia" name="id_incidencia" placeholder="XXXXXXXXXX" required>
-
-    <button type="submit">Consultar</button>
+    <!-- Importante: method="POST" -->
+    <form method="POST" action="">
+        <label for="ID_Incidencia">ID incidència</label>
+        <input type="number" id="ID_Incidencia" name="ID_Incidencia" placeholder="Ej: 123" required>
+        <button type="submit">Consultar</button>
     </form>
 
+    <hr>
+
     <?php
-    // 1. Capturamos el valor del input HTML (suponiendo que name="url_input")
-    // Usamos el operador de coalescencia nula (??) para evitar errores si el campo viene vacío
-    $url_a_buscar = $_POST['id_incidencia'] ?? '';
+    // Mostrar errores si existen
+    if ($error_msg) {
+        echo "<p style='color:red;'>$error_msg</p>";
+    }
 
-    if (!empty($url_a_buscar)) {
-
-        // 2. Preparamos la sentencia (Protección contra SQL Injection)
-        $stmt = $conn->prepare("SELECT * FROM incidencia WHERE ID_Incidencia = ?");
-
-        // 3. Vinculamos el parámetro ("s" indica que es un string)
-        $stmt->bind_param("i", $url_a_buscar);
-
-        // 4. Ejecutamos
-        $stmt->execute();
-
-        // 5. Obtenemos los resultados
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) { //Qyueda que esto este bien :)
-                echo "Método: " . $row['metode'] . " | Usuario ID: " . $row['usuari_id'] . " | Respuesta: " . $row['temps_resposta_ms'] . "ms<br>";
-            }
-        } else {
-            echo "No se encontraron registros para esa ID.";
+    // Mostrar resultados
+    if (!empty($resultados)) {
+        echo "<h3>Actuacions trobades:</h3>";
+        foreach ($resultados as $actuacio) {
+            echo "<p><strong>ID actuació:</strong> " . $actuacio["ID_Actuacion"] .
+                 " - <strong>Descripció:</strong> " . htmlspecialchars($actuacio["descripcio"]) . "</p>";
         }
-
-        $stmt->close();
-    } else {
-        echo "Por favor, introduce una ID válida.";
     }
     ?>
+
 </body>
 </html>
+
+<?php
+// CERRAR la conexión al final de todo el archivo
+if (isset($conn)) {
+    $conn->close();
+}
+?>
