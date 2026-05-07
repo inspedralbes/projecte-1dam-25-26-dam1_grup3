@@ -38,6 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
 <head>
     <meta charset="UTF-8">
     <title>Veure incidència</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/estils.css">
 </head>
 <body>
     <!-- Importante: method="POST" -->
