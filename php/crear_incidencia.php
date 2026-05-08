@@ -9,8 +9,6 @@ require_once 'connexio.php';
  * @param mixed $conn
  * @return void
  */
-
-// Mostrar todos los errores y advertencias en pantalla
 function crear_incidencia($conn)
 {
     // Obtenir el noms del formulari
