@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="ca">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GI3P — Tècnic</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/estils.css">
+    </head>
+    <body>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inici</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/estils.css">
-</head>
-<body>
-    <div class = "encabezado">
-            <h1 class="text-center"><a href="index.php">GI3P</a></h1>
-            <h1 class="text-center"><a href="index.php">Institut Pedralbes</a>/h1>
-            <p class="text-center">Tens un problema? Digueu-nos</p>
-        </div>
-    <div class="container mt-4">
-        <button class="form-btn-mb4"><a href="detalls_incidencia.php">Informació incidència</a></button>
-        <button class="form-btn-mb4"><a href="modificar_incidencia.php">Modificar incidència</a></button>
+    <div class="encabezado">
+        <img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo">
+        <div class="brand">GI3P</div>
+        <h1>Institut Pedralbes</h1>
+        <p>Àrea de tècnics</p>
     </div>
-</body>
+
+    <div class="page-content" style="max-width: 600px;">
+        <p class="text-muted mb-3">Selecciona una opció:</p>
+
+        <div class="nav-grid">
+            <a href="detalls_incidencia.php" class="nav-card">
+                <div class="nav-label">Informació incidència</div>
+                <div class="nav-desc">Consulta detalls i actuacions</div>
+            </a>
+            <a href="modificar_incidencia.php" class="nav-card">
+                <div class="nav-label">Modificar incidència</div>
+                <div class="nav-desc">Assigna tècnic, prioritat i tipus</div>
+            </a>
+        </div>
+    </div>
+    </body>
+</html>

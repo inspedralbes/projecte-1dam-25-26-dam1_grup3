@@ -1,25 +1,19 @@
 <?php
 require_once 'connexio.php';
 
-// Verificamos la conexión
 if ($conn->connect_error) {
     die("Error de connexió: " . $conn->connect_error);
 }
 
-// 1. Lógica de procesamiento de datos (antes de cualquier HTML)
 $resultados = [];
-$error_msg = "";
+$error_msg  = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     $id_a_buscar = $_POST['ID_Incidencia'];
 
-    // Preparamos la sentencia
     $stmt = $conn->prepare("SELECT ID_Actuacion, descripcio FROM Actuaciones WHERE ID_Incidencia = ?");
-
-    // "i" si el ID es un número entero, "s" si es texto.
     $stmt->bind_param("i", $id_a_buscar);
     $stmt->execute();
-
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
@@ -32,46 +26,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     $stmt->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Veure incidència</title>
+    <title>GI3P — Veure incidència</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/estils.css">
 </head>
 <body>
-    <!-- Importante: method="POST" -->
-    <form method="POST" action="">
-        <label for="ID_Incidencia">ID incidència</label>
-        <input type="number" id="ID_Incidencia" name="ID_Incidencia" placeholder="Ej: 123" required>
-        <button type="submit">Consultar</button>
-    </form>
 
-    <hr>
+<div class="encabezado">
+    <img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo">
+    <div class="brand">GI3P</div>
+    <h1>Institut Pedralbes</h1>
+    <p>Detalls de la incidència</p>
+</div>
 
-    <?php
-    // Mostrar errores si existen
-    if ($error_msg) {
-        echo "<p style='color:red;'>$error_msg</p>";
-    }
+<div class="page-content" style="max-width:640px;">
+    <div class="topbar">
+        <a href="index_client.php" class="btn btn-secondary">← Tornar</a>
+    </div>
 
-    // Mostrar resultados
-    if (!empty($resultados)) {
-        echo "<h3>Actuacions trobades:</h3>";
-        foreach ($resultados as $actuacio) {
-            echo "<p><strong>ID actuació:</strong> " . $actuacio["ID_Actuacion"] .
-                 " - <strong>Descripció:</strong> " . htmlspecialchars($actuacio["descripcio"]) . "</p>";
-        }
-    }
-    ?>
+    <h2 class="page-title">Consultar incidència</h2>
+
+    <div class="form-card mb-3">
+        <form method="POST" action="">
+            <div class="form-group">
+                <label class="form-label" for="ID_Incidencia">ID de la incidència</label>
+                <input type="number" class="form-control" id="ID_Incidencia" name="ID_Incidencia"
+                       placeholder="Ex: 123" required
+                       value="<?= isset($_POST['ID_Incidencia']) ? (int)$_POST['ID_Incidencia'] : '' ?>">
+            </div>
+            <button type="submit" class="btn btn-primary">Consultar</button>
+        </form>
+    </div>
+
+    <?php if ($error_msg): ?>
+        <div class="alert alert-error"><?= htmlspecialchars($error_msg) ?></div>
+    <?php endif; ?>
+
+    <?php if (!empty($resultados)): ?>
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;">
+            Actuacions trobades <span style="color:var(--text-muted);font-weight:400;">(<?= count($resultados) ?>)</span>
+        </h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID actuació</th>
+                    <th>Descripció</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($resultados as $actuacio): ?>
+                <tr>
+                    <td><span style="font-family:'DM Mono',monospace;font-size:13px;">#<?= $actuacio['ID_Actuacion'] ?></span></td>
+                    <td><?= htmlspecialchars($actuacio['descripcio']) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>
 
 </body>
 </html>
 
 <?php
-// CERRAR la conexión al final de todo el archivo
 if (isset($conn)) {
     $conn->close();
 }
