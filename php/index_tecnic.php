@@ -16,7 +16,10 @@
         <h1>Institut Pedralbes</h1>
         <p>Àrea de tècnics</p>
     </div>
-
+    <div class="page-content">
+        <div class="topbar">
+            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+        </div>
     <div class="page-content" style="max-width: 600px;">
         <p class="text-muted mb-3">Selecciona una opció</p>
 
@@ -34,6 +37,7 @@
                 <div class="nav-desc">Temps per departament</div>
             </a>
         </div>
+    </div>
     </div>
     </body>
 </html>

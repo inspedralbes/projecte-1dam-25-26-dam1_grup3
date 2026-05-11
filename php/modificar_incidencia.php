@@ -57,8 +57,8 @@ function prioritatBadge($p) {
 </div>
 
 <div class="page-content">
-    <div class="topbar">
-        <a href="index_tecnic.php" class="btn btn-secondary">← Tornar</a>
+     <div class="topbar">
+        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>
 
     <h2 class="page-title">Modificar Incidències</h2>

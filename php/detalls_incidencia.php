@@ -52,9 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     </div>
 <div class="page-content" style="max-width: 1500px;">
     <div class="topbar">
-        <a href="index_client.php" class="btn btn-secondary">← Tornar</a>
+        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>
-
     <h2 class="page-title">Consultar incidència</h2>
 
     <div class="form-card mb-3">

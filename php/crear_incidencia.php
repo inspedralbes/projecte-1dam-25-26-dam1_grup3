@@ -82,6 +82,10 @@ error_reporting(E_ALL);
             <h1>Institut Pedralbes</h1>
         </div>
     </div>
+    <div class="page-content" style="max-width: 1500px;">
+        <div class="topbar">
+            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+        </div>
     <div class="container mt-4">
         <h1>Crear incidència</h1>
         <?php
@@ -90,7 +94,8 @@ error_reporting(E_ALL);
             crear_incidencia($conn);
         } else {
             ?>
-        <form method="POST" action="crear_incidencia.php">
+            <div class="form-card mb-3">
+                <form method="POST" action="crear_incidencia.php">
                 <div class="mb-3">
                      <label for="ID_Departament" class="form-label">ID departament</label>
                     <input type="text" id="ID_Departament" class="form-control" name="ID_Departament" placeholder="1, 2, 3" required>
@@ -115,6 +120,8 @@ error_reporting(E_ALL);
 
                 <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button>
             </form>
+            </div>
+        </div>
         </div>
     <?php } ?>
 </div>

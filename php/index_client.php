@@ -17,7 +17,10 @@
     <div class="brand">GI3P</div>
     <h1>Institut Pedralbes</h1>
     <p>Tens un problema? Digueu-nos</p>
-</div>  
+</div>
+ <div class="topbar">
+        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+    </div>
 <div class="page-content" style="max-width: 760px;">
     <p class="text-muted mb-3">Selecciona una opció:</p>
 
