@@ -1,6 +1,6 @@
 <?php
 require_once 'connexio.php';
-require_once 'logger.php'
+require_once 'logger.php';
 
 // A. Processar l'actualització
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {

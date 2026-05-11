@@ -1,6 +1,6 @@
 <?php
 require_once 'connexio.php';
-require_once 'logger.php'
+require_once 'logger.php';
 
 if ($conn->connect_error) {
     die("Error de connexió: " . $conn->connect_error);

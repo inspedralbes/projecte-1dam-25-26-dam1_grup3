@@ -55,17 +55,17 @@ services:
       - db
 
 
- mongo:
-  image: mongo:7
-  container_name: mongo
-  restart: always
-  environment:
-    MONGO_INITDB_ROOT_USERNAME: root
-    MONGO_INITDB_ROOT_PASSWORD: example
-  volumes:
-    - mongo_data:/data/db
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo_data:/data/db
 
-   mongo-express:
+  mongo-express:
     image: mongo-express
     container_name: mongo-express
     restart: always
