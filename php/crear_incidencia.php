@@ -66,15 +66,14 @@ error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="ca">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear incidencia</title>
+    <title>GI3P — Crear incidència</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/estils.css">
+    <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
-
 <body>
     <div class = "encabezado">
         <div class="nav_menu">
@@ -102,7 +101,7 @@ error_reporting(E_ALL);
                     <label for="Prioridad" class="form-label">Prioritat</label>
                     <select class="form-control" name="Prioridad" id="Prioridad" required>
                         <option value="Baja">Baja</option>
-                        <option value="Media">Media</option>
+                        <option value="Media" selected>Media</option>
                         <option value="Alta">Alta</option>
                         <option value="Crítica">Crítica</option>
                     </select>
@@ -111,13 +110,12 @@ error_reporting(E_ALL);
                     <label for="data_fin" class="form-label">Data de finalització</label>
                     <input type="text" id="Data_FIN" class="form-control" name="Data_FIN" required value = "2024-12-31">
                 </div>
-                <button class="btn btn-success">Crear</button></div>
-        </form>
-        <?php
-    }
-    ?>
-    </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button>
+            </form>
+        </div>
+    <?php endif; ?>
+</div>
+
 </body>
-
 </html>
-
