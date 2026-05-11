@@ -6,6 +6,7 @@
     <title>GI3P — Afectat</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/estils.css">
+    <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
 
@@ -27,10 +28,6 @@
         <a href="detalls_incidencia.php" class="nav-card">
             <div class="nav-label">Informació incidència</div>
             <div class="nav-desc">Consulta l'estat de la teva incidència</div>
-        </a>
-        <a href="temps_consumit.php" class="nav-card">
-            <div class="nav-label">Temps consumit</div>
-            <div class="nav-desc">Temps per departament</div>
         </a>
     </div>
 </div>
