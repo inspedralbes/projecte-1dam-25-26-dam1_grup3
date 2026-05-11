@@ -19,6 +19,7 @@ $result = $conn->query($sql);
     <title>GI3P — Temps per Departament</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/estils.css">
+    <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
 
@@ -31,7 +32,7 @@ $result = $conn->query($sql);
 
 <div class="page-content">
     <div class="topbar">
-        <a href="index_client.php" class="btn btn-secondary">← Tornar</a>
+        <a href="index_tecnic.php" class="btn btn-secondary">← Tornar</a>
     </div>
 
     <h2 class="page-title">Resum per departament</h2>
