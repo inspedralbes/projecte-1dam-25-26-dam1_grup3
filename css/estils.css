@@ -63,3 +63,8 @@ button > a {
     justify-content: center;
     border-radius: 10px;
 }
+.nav_menu{
+    display: flex;  
+    flex-direction: row;  
+    justify-content: space-between;
+}

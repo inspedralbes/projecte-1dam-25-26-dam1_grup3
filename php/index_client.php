@@ -10,9 +10,12 @@
 </head>
 
 <body>
-    <div class = "encabezado">
-        <h1 class="text-center"><a href="index.php">GI3P</a></h1>
-        <h1 class="text-center"><a href="index.php">Institut Pedralbes</a>/h1>
+     <div class = "encabezado">
+        <div class="nav_menu">
+            <button type="submit" class="nav_btn"><a href="index.php">Pagina principal</a></button>
+        </div>
+        <h1 class="text-center">GI3P</h1>
+        <h1 class="text-center">Institut Pedralbes</h1>
         <p class="text-center">Tens un problema? Digueu-nos</p>
     </div>
     <div class="container mt-4">

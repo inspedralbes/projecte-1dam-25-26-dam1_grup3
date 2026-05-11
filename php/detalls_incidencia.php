@@ -42,6 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     <link rel="stylesheet" href="../css/estils.css">
 </head>
 <body>
+     <div class = "encabezado">
+        <div class="nav_menu">
+            <button type="submit" class="nav_btn"><a href="index.php">Pagina principal</a></button>
+            <h1 class="text-center">GI3P</h1>
+        </div>
     <!-- Importante: method="POST" -->
     <form method="POST" action="">
         <label for="ID_Incidencia">ID incidència</label>

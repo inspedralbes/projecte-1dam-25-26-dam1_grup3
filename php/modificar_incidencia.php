@@ -46,6 +46,11 @@ $tipus = $conn->query("SELECT ID_Tipo, Nom FROM TIPOLOGIA");
     </style>
 </head>
 <body>
+    <div class = "encabezado">
+        <div class="nav_menu">
+            <button type="submit" class="nav_btn"><a href="index.php">Pagina principal</a></button>
+            <h1 class="text-center">GI3P</h1>
+    </div>
     <h2>Modificar Incidències</h2>
 
     <?php if (isset($missatge)) echo "<p class='success'>$missatge</p>"; ?>

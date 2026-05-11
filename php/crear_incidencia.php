@@ -1,60 +1,58 @@
 <?php
+require_once 'connexio.php';
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
-require_once 'connexio.php';
-// Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
-
-/**
- * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
- * @param mixed $conn
- * @return void
- */
 function crear_incidencia($conn)
 {
-    // Obtenir el noms del formulari
-    $id_departament = $_POST['ID_Departament'];
-    $nom_dept = $_POST['nom_dept'];
-    $data_fin = $_POST['data_fin'];
-    $prioridad = $_POST['Prioridad'];
-    $descripcio = $_POST['Descripcio'];
+    // 1. Recollir i validar que les dades existeixin
+    $id_departament = isset($_POST['ID_Departament']) ? intval($_POST['ID_Departament']) : 0;
+    $data_fin = $_POST['Data_FIN'] ?? '';
+    $prioridad = $_POST['Prioridad'] ?? '';
+    $descripcio = $_POST['Descripcio'] ?? '';
 
-    $sql_check = "SELECT ID_Departament, Nom FROM DEPARTAMENT WHERE ID_Departament = ?";
+    // 2. Verificar si el departament existeix
+    $sql_check = "SELECT ID_Departament FROM DEPARTAMENT WHERE ID_Departament = ?";
     $stmt_check = $conn->prepare($sql_check);
-
+    
     if ($stmt_check === false) {
-        die("Error en preparar la consulta de verificació: " . $conn->error);
+        die("Error en la consulta de verificació: " . $conn->error);
     }
 
-    $stmt_check->bind_param("s", $id_departament);
+    $stmt_check->bind_param("i", $id_departament);
     $stmt_check->execute();
     $result = $stmt_check->get_result();
 
-    if ($row = $result->fetch_assoc()) {
-        $nom_dept_bd = $row['Nom'];
-        echo "Departament trobat: " . htmlspecialchars($nom_dept_bd) . "<br>";
-
-        $sql = "INSERT INTO INCIDENCIA (ID_Departament, Data_FIN, Prioridad, Descripcio) VALUES (?, ?, ?, ?)";
-        $sentencia = $conn->prepare($sql);
-        if ($sentencia === false) {
-            die("Error en preparar la consulta d'inserció: " . $conn->error);
-        }
-        $sentencia->bind_param("isss", $id_departament, $data_fin, $prioridad, $descripcio);
-        } else {
-        echo "<p class='info'>No es pot assignar una incidència en un departament que no existeix.</p>";
+    if ($result->num_rows === 0) {
+        // SI NO HI HA RESULTATS, PARAMOS AQUÍ
+        echo "<p class='info'>No es pot assignar una incidència en un departament que no existeix (ID: $id_departament).</p>";
         $stmt_check->close();
         return;
     }
     $stmt_check->close();
-    if (empty($nom_dept)) {
-        echo "<p class='error'>La incidència no pot estar buida.</p>";
-        $sentencia->close();
+
+    // 3. Validar que la descripció no estigui buida (usant la variable correcta)
+    if (empty($descripcio)) {
+        echo "<p class='error'>La descripció de la incidència no pot estar buida.</p>";
         return;
     }
+
+    // 4. Inserir la incidència
+    $sql = "INSERT INTO INCIDENCIA (ID_Departament, Data_FIN, Prioridad, Descripcio) VALUES (?, ?, ?, ?)";
+    $sentencia = $conn->prepare($sql);
+    
+    if ($sentencia === false) {
+        die("Error en la consulta d'inserció: " . $conn->error);
+    }
+
+    // "isss" -> i (integer), s (string), s (string), s (string)
+    $sentencia->bind_param("isss", $id_departament, $data_fin, $prioridad, $descripcio);
+
     if ($sentencia->execute()) {
         echo "<p class='info'>Incidència creada amb èxit!</p>";
     } else {
         echo "<p class='error'>Error al crear la incidència: " . htmlspecialchars($sentencia->error) . "</p>";
     }
+    
     $sentencia->close();
 }
     // Comprovar si el nom no està buit
@@ -78,6 +76,11 @@ error_reporting(E_ALL);
 </head>
 
 <body>
+    <div class = "encabezado">
+        <div class="nav_menu">
+            <button type="submit" class="nav_btn"><a href="index.php">Pagina principal</a></button>
+        </div>
+        <h1 class="text-center">GI3P</h1>
     <div class="container mt-4">
         <h1>Crear incidència</h1>
         <?php
@@ -90,10 +93,6 @@ error_reporting(E_ALL);
                 <div class="mb-3">
                      <label for="ID_Departament" class="form-label">ID departament</label>
                     <input type="text" id="ID_Departament" class="form-control" name="ID_Departament" placeholder="1, 2, 3" required>
-                </div>
-                <div class="mb-3">
-                    <label for="nom_dept" class="form-label">Departament</label>
-                    <input type="text" id="nom_dept" class="form-control" name="nom_dept" placeholder="Departament" required>
                 </div>
                 <div class="mb-3">
                     <label for="descripcio" class="form-label">Descripcio</label>
@@ -110,7 +109,7 @@ error_reporting(E_ALL);
                 </div>
                 <div class="mb-3">
                     <label for="data_fin" class="form-label">Data de finalització</label>
-                    <input type="text" id="data_fin" class="form-control" name="data_fin" required value = "2024-12-31">
+                    <input type="text" id="Data_FIN" class="form-control" name="Data_FIN" required value = "2024-12-31">
                 </div>
                 <button class="btn btn-success">Crear</button></div>
         </form>
