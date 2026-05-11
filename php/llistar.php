@@ -1,4 +1,5 @@
 <?php
+include_once "header.php";
 require_once 'connexio.php';
 ?>
 <!DOCTYPE html>
@@ -22,8 +23,8 @@ require_once 'connexio.php';
 
 <div class="page-content">
     <div class="topbar">
-        <a href="index_client.php" class="btn btn-secondary">← Tornar</a>
-        <a href="crear.php" class="btn btn-primary">+ Nova incidència</a>
+         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+        <a href="crear.php" class="btn btn-primary">Nova incidència</a>
     </div>
 
     <h2 class="page-title">Totes les incidències</h2>

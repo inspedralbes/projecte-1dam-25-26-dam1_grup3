@@ -1,6 +1,6 @@
 <?php
 require_once 'connexio.php';
-
+include_once "header.php";
 // A. Processar l'actualització
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {
     $id_inci   = $_POST['ID_Incidencia'];
@@ -48,13 +48,6 @@ function prioritatBadge($p) {
     <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
-
-<div class="encabezado">
-    <img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo">
-    <div class="brand">GI3P</div>
-    <h1>Institut Pedralbes</h1>
-    <p>Gestió d'incidències</p>
-</div>
 
 <div class="page-content">
      <div class="topbar">

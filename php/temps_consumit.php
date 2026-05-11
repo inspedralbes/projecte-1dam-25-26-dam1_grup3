@@ -1,4 +1,5 @@
 <?php
+include_once "header.php";
 require_once 'connexio.php';
 
 $sql = 'SELECT d.ID_Departament, d.Nom AS departament,
@@ -6,7 +7,7 @@ $sql = 'SELECT d.ID_Departament, d.Nom AS departament,
         SUM(a.Temps) AS temps
         FROM DEPARTAMENT d
         LEFT JOIN INCIDENCIA i ON i.ID_Departament = d.ID_Departament
-        LEFT JOIN Actuaciones a ON a.ID_Incidencia = i.ID_Incidencia
+        LEFT JOIN Actuacions a ON a.ID_Incidencia = i.ID_Incidencia
         GROUP BY d.ID_Departament, d.Nom
         ORDER BY d.Nom';
 
@@ -23,16 +24,9 @@ $result = $conn->query($sql);
 </head>
 <body>
 
-<div class="encabezado">
-    <img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo">
-    <div class="brand">GI3P</div>
-    <h1>Institut Pedralbes</h1>
-    <p>Temps consumit per departament</p>
-</div>
-
 <div class="page-content">
     <div class="topbar">
-        <a href="index_tecnic.php" class="btn btn-secondary">← Tornar</a>
+         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>
 
     <h2 class="page-title">Resum per departament</h2>
