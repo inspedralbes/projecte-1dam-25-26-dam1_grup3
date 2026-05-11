@@ -1,68 +1,50 @@
 <?php
-require_once 'connexio.php';
+include_once "header.php";
+include_once "connexio.php";
 
-//Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
+// Configuración de errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Definimos la función
 function crear_incidencia($conn)
 {
-    // 1. Recollir i validar que les dades existeixin
+    if (!$conn) return "<p class='error'>Error: No hi ha connexió a la base de dades.</p>";
+
     $id_departament = isset($_POST['ID_Departament']) ? intval($_POST['ID_Departament']) : 0;
     $data_fin = $_POST['Data_FIN'] ?? '';
     $prioridad = $_POST['Prioridad'] ?? '';
     $descripcio = $_POST['Descripcio'] ?? '';
 
-    // 2. Verificar si el departament existeix
+    // Verificar si el departament existeix
     $sql_check = "SELECT ID_Departament FROM DEPARTAMENT WHERE ID_Departament = ?";
     $stmt_check = $conn->prepare($sql_check);
-    
-    if ($stmt_check === false) {
-        die("Error en la consulta de verificació: " . $conn->error);
-    }
-
     $stmt_check->bind_param("i", $id_departament);
     $stmt_check->execute();
-    $result = $stmt_check->get_result();
-
-    if ($result->num_rows === 0) {
-        // SI NO HI HA RESULTATS, PARAMOS AQUÍ
-        echo "<p class='info'>No es pot assignar una incidència en un departament que no existeix (ID: $id_departament).</p>";
+    
+    if ($stmt_check->get_result()->num_rows === 0) {
         $stmt_check->close();
-        return;
+        return "<div class='alert alert-danger'>No es pot assignar una incidència en un departament que no existeix (ID: $id_departament).</div>";
     }
     $stmt_check->close();
 
-    // 3. Validar que la descripció no estigui buida (usant la variable correcta)
     if (empty($descripcio)) {
-        echo "<p class='error'>La descripció de la incidència no pot estar buida.</p>";
-        return;
+        return "<div class='alert alert-warning'>La descripció no pot estar buida.</div>";
     }
 
-    // 4. Inserir la incidència
     $sql = "INSERT INTO INCIDENCIA (ID_Departament, Data_FIN, Prioridad, Descripcio) VALUES (?, ?, ?, ?)";
     $sentencia = $conn->prepare($sql);
-    
-    if ($sentencia === false) {
-        die("Error en la consulta d'inserció: " . $conn->error);
-    }
-
-    // "isss" -> i (integer), s (string), s (string), s (string)
     $sentencia->bind_param("isss", $id_departament, $data_fin, $prioridad, $descripcio);
 
     if ($sentencia->execute()) {
-        echo "<p class='info'>Incidència creada amb èxit!</p>";
+        $resultado = "<div class='alert alert-success'>Incidència creada amb èxit!</div>";
     } else {
-        echo "<p class='error'>Error al crear la incidència: " . htmlspecialchars($sentencia->error) . "</p>";
+        $resultado = "<div class='alert alert-danger'>Error: " . htmlspecialchars($sentencia->error) . "</div>";
     }
-    
     $sentencia->close();
+    return $resultado;
 }
-    // Comprovar si el nom no està buit
-    // Si l'html està ben escrit això no podria passar en els usuaris normals
-    // Igualment SEMPRE s'ha de comprovar tot al backend ja que no tots els usuaris
-    // són "bones persones" i des de les web tools es pot canviar tot el front per exemple.
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="ca">
@@ -75,56 +57,49 @@ error_reporting(E_ALL);
     <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
-    <div class = "encabezado">
-        <div class="nav_menu">
-            <button type="submit" class="nav_btn"><a href="index.php"><img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo"></a></button>
-            <div class="brand">GI3P</div>
-            <h1>Institut Pedralbes</h1>
-        </div>
-    </div>
     <div class="page-content" style="max-width: 1500px;">
-        <div class="topbar">
-            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+        <div class="topbar" style="margin: 20px;">
+            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary">Tornar</a>  
         </div>
-    <div class="container mt-4">
-        <h1>Crear incidència</h1>
-        <?php
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            crear_incidencia($conn);
-        } else {
+        <div class="container mt-4">
+            <h1>Crear incidència</h1>
+            
+            <?php
+            // Solo ejecutamos y mostramos mensaje si se ha enviado el formulario
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                echo crear_incidencia($conn);
+            }
             ?>
+
             <div class="form-card mb-3">
                 <form method="POST" action="crear_incidencia.php">
-                <div class="mb-3">
-                     <label for="ID_Departament" class="form-label">ID departament</label>
-                    <input type="text" id="ID_Departament" class="form-control" name="ID_Departament" placeholder="1, 2, 3" required>
-                </div>
-                <div class="mb-3">
-                    <label for="descripcio" class="form-label">Descripcio</label>
-                    <textarea placeholder="Descripció" class="form-control" name="Descripcio" id="Descripcio" cols="5" required></textarea>
-                </div>  
-                <div class="mb-3">
-                    <label for="Prioridad" class="form-label">Prioritat</label>
-                    <select class="form-control" name="Prioridad" id="Prioridad" required>
-                        <option value="Baja">Baja</option>
-                        <option value="Media" selected>Media</option>
-                        <option value="Alta">Alta</option>
-                        <option value="Crítica">Crítica</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="data_fin" class="form-label">Data de finalització</label>
-                    <input type="text" id="Data_FIN" class="form-control" name="Data_FIN" required value = "2024-12-31">
-                </div>
+                    <div class="mb-3">
+                         <label for="ID_Departament" class="form-label">ID departament</label>
+                        <input type="text" id="ID_Departament" class="form-control" name="ID_Departament" placeholder="1, 2, 3" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Descripcio" class="form-label">Descripcio</label>
+                        <textarea placeholder="Descripció" class="form-control" name="Descripcio" id="Descripcio" rows="3" required></textarea>
+                    </div>  
+                    <div class="mb-3">
+                        <label for="Prioridad" class="form-label">Prioritat</label>
+                        <select class="form-control" name="Prioridad" id="Prioridad" required>
+                            <option value="Baja">Baja</option>
+                            <option value="Media" selected>Media</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Crítica">Crítica</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Data_FIN" class="form-label">Data de finalització</label>
+                        <input type="text" id="Data_FIN" class="form-control" name="Data_FIN" required value="2024-12-31">
+                    </div>
 
-                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button>
-            </form>
+                   <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button> 
+                </form>
             </div>
         </div>
-        </div>
-    <?php } ?>
-</div>
-
+    </div>
 </body>
 </html>

@@ -16,13 +16,14 @@
         </div>
     <div class="brand">GI3P</div>
     <h1>Institut Pedralbes</h1>
-    <p>Tens un problema? Digueu-nos</p>
+    <p>Àrea de clients</p>
 </div>
- <div class="topbar">
+<div class="page-content">
+    <div class="topbar">
         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>
 <div class="page-content" style="max-width: 760px;">
-    <p class="text-muted mb-3">Selecciona una opció:</p>
+    <p class="text-muted mb-3">Selecciona una opció</p>
 
     <div class="nav-grid">
         <a href="crear_incidencia.php" class="nav-card">
@@ -35,6 +36,6 @@
         </a>
     </div>
 </div>
-
+</div>
 </body>
 </html>

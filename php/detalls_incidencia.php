@@ -1,5 +1,6 @@
 <?php
-require_once 'connexio.php';
+include_once 'connexio.php';
+include_once "header.php";
 
 if ($conn->connect_error) {
     die("Error de connexió: " . $conn->connect_error);
@@ -13,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     $busqueda_realizada = true;
     $id_a_buscar = $_POST['ID_Incidencia'];
 
-    $sql = "SELECT ID_Actuacion, Data_Actuacion, Descripcio, Temps 
+    $sql = "SELECT ID_Actuacion, Descripcio, Data_Actuacion, Temps 
         FROM Actuacions 
         WHERE ID_Incidencia = ? AND Visible = 1 
         ORDER BY Data_Actuacion ASC";
@@ -42,19 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
-     <div class = "encabezado">
-        <div class="nav_menu">
-        <button type="submit" class="nav_btn"><a href="index.php"><img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo"></a></button>
-        <div class="brand">GI3P</div>
-            <h1>Institut Pedralbes</h1>
-             <p>Detalls de la incidència</p>
-        </div>
-    </div>
 <div class="page-content" style="max-width: 1500px;">
     <div class="topbar">
         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>
-    <h2 class="page-title">Consultar incidència</h2>
+    <h1>Consultar incidència</h1>
 
     <div class="form-card mb-3">
         <form method="POST" action="">
@@ -71,8 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     <?php if ($error_msg): ?>
         <div class="alert alert-error"><?= htmlspecialchars($error_msg) ?></div>
     <?php endif; ?>
-
-    <?php if (!empty($resultados)): ?>
+<?php if (!empty($resultados)): ?>
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;">
             Actuacions trobades <span style="color:var(--text-muted);font-weight:400;">(<?= count($resultados) ?>)</span>
         </h3>
@@ -81,21 +73,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
                 <tr>
                     <th>ID actuació</th>
                     <th>Descripció</th>
+                    <th>Data</th>
+                    <th>Temps consumit</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($resultados as $actuacio): ?>
                 <tr>
-                    <td><span style="font-family:'DM Mono',monospace;font-size:13px;">#<?= $actuacio['ID_Actuacion'] ?></span></td>
-                    <td><?= htmlspecialchars($actuacio['Descripcio']) ?></td>
+                    <td>
+                        <span style="font-family:'DM Mono',monospace;font-size:13px;">
+                            #<?= $actuacio['ID_Actuacion'] ?? 'N/A' ?>
+                        </span>
+                    </td>
+                    
+                    <td><?= htmlspecialchars($actuacio['Descripcio'] ?? '') ?></td>
+                    
+                    <td>
+                        <span class="badge" style="color: #000000; padding: 5px 10px; border-radius: 4px;">
+                            <?= htmlspecialchars($actuacio['Data_Actuacion'] ?? 'Sense data') ?>
+                        </span>
+                    </td>
+                    
+                    <td>
+                        <span class="badge" style="color: #000000;  padding: 5px 10px; border-radius: 4px;">
+                            <?= htmlspecialchars($actuacio['Temps'] ?? '0') ?> minuts
+                        </span>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     <?php endif; ?>
-</div>
-
-</body>
+</div> </body>
 </html>
 
 <?php
