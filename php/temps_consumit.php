@@ -1,5 +1,6 @@
 <?php
 require_once 'connexio.php';
+require_once 'logger.php'
 
 $sql = 'SELECT d.ID_Departament, d.Nom AS departament,
         COUNT(DISTINCT i.ID_Incidencia) AS total_incidencies,
