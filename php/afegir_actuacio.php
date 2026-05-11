@@ -74,47 +74,59 @@ error_reporting(E_ALL);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear incidencia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/estils.css">
+    <link rel="stylesheet" href="/css/estils.css?v=<?php echo time(); ?>">
+    <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 
 <body>
-    <div class="container mt-4">
-        <h1>Afegir actuació</h1>
-        <?php
+    <div class="encabezado">
+        <a href="index.php"><img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo"></a>
+        <div class="brand">GI3P</div>
+        <h1>Institut Pedralbes</h1>
+        <p>Sistema de gestió d'incidències</p>
+    </div>
+    <div class="page-content">
+        <div class="topbar">
+            <a href="index_tecnic.php" class="btn btn-secondary">← Tornar</a>
+        </div>
+        <div class="container mt-4">
+            <h1>Afegir actuació</h1>
+            <?php
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            afegir_actuacio($conn);
-        } else {
-            ?>
-        <form method="POST" action="afegir_actuacio.php">
-                <div class="mb-3">
-                     <label for="ID_Incidencia" class="form-label">ID Incidencia</label>
-                    <input type="text" id="ID_Incidencia" class="form-control" name="ID_Incidencia" placeholder="1, 2, 3" required>
-                </div>
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                afegir_actuacio($conn);
+            } else {
+                ?>
+            <form method="POST" action="afegir_actuacio.php">
+                    <div class="mb-3">
+                         <label for="ID_Incidencia" class="form-label">ID Incidencia</label>
+                        <input type="text" id="ID_Incidencia" class="form-control" name="ID_Incidencia" placeholder="1, 2, 3" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="descripcio" class="form-label">Descripcio</label>
-                    <textarea placeholder="Descripció" class="form-control" name="Descripcio" id="Descripcio" cols="5" required></textarea>
-                </div>
+                    <div class="mb-3">
+                        <label for="descripcio" class="form-label">Descripcio</label>
+                        <textarea placeholder="Descripció" class="form-control" name="Descripcio" id="Descripcio" cols="5" required></textarea>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="Temps" class="form-label">Temps en minuts</label>
-                    <input type="text" id="Temps" class="form-control" name="Temps" placeholder="10.00" required>
-                </div>
+                    <div class="mb-3">
+                        <label for="Temps" class="form-label">Temps en minuts</label>
+                        <input type="text" id="Temps" class="form-control" name="Temps" placeholder="10.00" required>
+                    </div>
 
-                <div class="mb-3">
-                    <input type="hidden" id="Visible" name="Visible" value="0">
-                    <input type="checkbox" id="Visible" name="Visible" value="1"> Visible
-                </div>
-                <div class="mb-3">
-                    <input type="hidden" name="FIN" id="FIN" value="0">
-                    <input type="checkbox" name="FIN" id="FIN" value="1"> Finalitzat
-                </div>
-                <button class="btn btn-success">Crear</button></div>
-        </form>
-        <?php
-    }
-    ?>
+                    <div class="mb-3">
+                        <input type="hidden" id="Visible" name="Visible" value="0">
+                        <input type="checkbox" id="Visible" name="Visible" value="1"> Visible
+                    </div>
+                    <div class="mb-3">
+                        <input type="hidden" name="FIN" id="FIN" value="0">
+                        <input type="checkbox" name="FIN" id="FIN" value="1"> Finalitzat
+                    </div>
+                    <button class="btn btn-success">Crear</button></div>
+            </form>
+            <?php
+        }
+        ?>
+        </div>
     </div>
 </body>
 
