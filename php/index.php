@@ -32,11 +32,5 @@
             <div class="nav-desc">Gestiona i resol incidències</div>
         </a>
     </div>
-    <div class="container mt-4">
-        <div class="form_div">
-            <button><a href="index_client.php">Afectat</a></button>
-            <button><a href="index_tecnic.php">Tècnic</a></button>
-        </div>
-    </div>
 </body>
 </html>

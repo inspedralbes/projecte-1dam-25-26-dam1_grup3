@@ -77,9 +77,11 @@ error_reporting(E_ALL);
 <body>
     <div class = "encabezado">
         <div class="nav_menu">
-            <button type="submit" class="nav_btn"><a href="index.php">Pagina principal</a></button>
+            <button type="submit" class="nav_btn"><a href="index.php"><img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo"></a></button>
+            <div class="brand">GI3P</div>
+            <h1>Institut Pedralbes</h1>
         </div>
-        <h1 class="text-center">GI3P</h1>
+    </div>
     <div class="container mt-4">
         <h1>Crear incidència</h1>
         <?php
@@ -114,7 +116,7 @@ error_reporting(E_ALL);
                 <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button>
             </form>
         </div>
-    <?php endif; ?>
+    <?php } ?>
 </div>
 
 </body>

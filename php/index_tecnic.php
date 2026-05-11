@@ -18,7 +18,7 @@
     </div>
 
     <div class="page-content" style="max-width: 600px;">
-        <p class="text-muted mb-3">Selecciona una opció:</p>
+        <p class="text-muted mb-3">Selecciona una opció</p>
 
         <div class="nav-grid">
             <a href="detalls_incidencia.php" class="nav-card">

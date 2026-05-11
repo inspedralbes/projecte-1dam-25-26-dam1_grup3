@@ -7,11 +7,17 @@ if ($conn->connect_error) {
 
 $resultados = [];
 $error_msg  = "";
+$busqueda_realizada = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
+    $busqueda_realizada = true;
     $id_a_buscar = $_POST['ID_Incidencia'];
 
-    $stmt = $conn->prepare("SELECT ID_Actuacion, descripcio FROM Actuaciones WHERE ID_Incidencia = ?");
+    $sql = "SELECT ID_Actuacion, Data_Actuacion, Descripcio, Temps 
+        FROM Actuacions 
+        WHERE ID_Incidencia = ? AND Visible = 1 
+        ORDER BY Data_Actuacion ASC";
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_a_buscar);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -21,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
             $resultados[] = $row;
         }
     } else {
-        $error_msg = "No s'han trobat actuacions per a aquesta ID.";
+        $error_msg = "No hi ha actuacions visibles per a la incidència #$id_a_buscar.";
     }
     $stmt->close();
 }
@@ -38,24 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
 <body>
      <div class = "encabezado">
         <div class="nav_menu">
-            <button type="submit" class="nav_btn"><a href="index.php">Pagina principal</a></button>
-            <h1 class="text-center">GI3P</h1>
+        <button type="submit" class="nav_btn"><a href="index.php"><img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo"></a></button>
+        <div class="brand">GI3P</div>
+            <h1>Institut Pedralbes</h1>
+             <p>Detalls de la incidència</p>
         </div>
-    <!-- Importante: method="POST" -->
-    <form method="POST" action="">
-        <label for="ID_Incidencia">ID incidència</label>
-        <input type="number" id="ID_Incidencia" name="ID_Incidencia" placeholder="Ej: 123" required>
-        <button type="submit">Consultar</button>
-    </form>
-
-<div class="encabezado">
-    <img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo">
-    <div class="brand">GI3P</div>
-    <h1>Institut Pedralbes</h1>
-    <p>Detalls de la incidència</p>
-</div>
-
-<div class="page-content" style="max-width:640px;">
+    </div>
+<div class="page-content" style="max-width: 1500px;">
     <div class="topbar">
         <a href="index_client.php" class="btn btn-secondary">← Tornar</a>
     </div>
@@ -93,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
                 <?php foreach ($resultados as $actuacio): ?>
                 <tr>
                     <td><span style="font-family:'DM Mono',monospace;font-size:13px;">#<?= $actuacio['ID_Actuacion'] ?></span></td>
-                    <td><?= htmlspecialchars($actuacio['descripcio']) ?></td>
+                    <td><?= htmlspecialchars($actuacio['Descripcio']) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
