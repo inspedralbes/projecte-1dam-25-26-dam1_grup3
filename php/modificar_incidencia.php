@@ -50,11 +50,11 @@ function prioritatBadge($p) {
 <body>
 
 <div class="page-content">
-     <div class="topbar">
+     <div class="topbar" style="margin: 15px;">
         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>
 
-    <h2 class="page-title">Modificar Incidències</h2>
+    <h1>Modificar Incidències</h1>
 
     <?php if (isset($missatge)): ?>
         <div class="alert alert-<?= $missatge_tipus ?>"><?= htmlspecialchars($missatge) ?></div>
@@ -82,17 +82,24 @@ function prioritatBadge($p) {
                         <td><span class="badge <?= prioritatBadge($row['Prioridad']) ?>"><?= $row['Prioridad'] ?></span></td>
 
                         <td>
-                            <form method="POST" action="" id="form_<?= $row['ID_Incidencia'] ?>">
+                            <form method="POST" action="tu_script.php" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
                                 <input type="hidden" name="ID_Incidencia" value="<?= $row['ID_Incidencia'] ?>">
+
                                 <select name="ID_Tecnic" required>
                                     <option value="">Selecciona tècnic…</option>
-                                    <?php $tecnics->data_seek(0); while ($t = $tecnics->fetch_assoc()): ?>
-                                        <option value="<?= $t['ID_Tecnic'] ?>"><?= htmlspecialchars($t['Nom']) ?></option>
+                                    <?php 
+                                    $tecnics->data_seek(0); 
+                                    while ($t = $tecnics->fetch_assoc()): 
+                                    ?>
+                                        <option value="<?= $t['ID_Tecnic'] ?>">
+                                            <?= htmlspecialchars($t['Nom']) ?>
+                                        </option>
                                     <?php endwhile; ?>
                                 </select>
+                                
+                                <button type="submit">Actualizar</button>
                             </form>
                         </td>
-
                         <td>
                             <select name="Prioridad" form="form_<?= $row['ID_Incidencia'] ?>">
                                 <option value="Baja"    <?= $row['Prioridad'] == 'Baja'    ? 'selected' : '' ?>>Baja</option>
@@ -123,6 +130,8 @@ function prioritatBadge($p) {
         </table>
     </div>
 </div>
-
+<?php
+include_once "footer.php";
+?>
 </body>
 </html>

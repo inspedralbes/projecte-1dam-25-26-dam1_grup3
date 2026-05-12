@@ -15,4 +15,5 @@
             <h1>Institut Pedralbes</h1>
         </div>
     </div>
-    
+</body> 
+</html>

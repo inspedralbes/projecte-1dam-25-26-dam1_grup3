@@ -1,6 +1,7 @@
 <?php
-include_once "header.php";
+include_once 'header.php';
 require_once 'connexio.php';
+
 
 $sql = 'SELECT d.ID_Departament, d.Nom AS departament,
         COUNT(DISTINCT i.ID_Incidencia) AS total_incidencies,
@@ -25,11 +26,10 @@ $result = $conn->query($sql);
 <body>
 
 <div class="page-content">
-    <div class="topbar">
+    <div class="topbar" style="margin: 15px;">
          <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>
-
-    <h2 class="page-title">Resum per departament</h2>
+    <h1>Resum per departament</h1>
 
     <table class="data-table">
         <thead>
@@ -50,6 +50,8 @@ $result = $conn->query($sql);
         </tbody>
     </table>
 </div>
-
+<?php
+include_once "footer.php";
+?>
 </body>
 </html>

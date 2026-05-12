@@ -32,5 +32,10 @@
             <div class="nav-desc">Gestiona i resol incidències</div>
         </a>
     </div>
+</div>
+    <?php
+include_once "footer.php";
+?>
+<script src="js/errors.js"></script>
 </body>
 </html>

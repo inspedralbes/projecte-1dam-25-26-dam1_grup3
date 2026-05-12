@@ -2,12 +2,10 @@
 include_once "header.php";
 include_once "connexio.php";
 
-// Configuración de errores
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Definimos la función
 function crear_incidencia($conn)
 {
     if (!$conn) return "<p class='error'>Error: No hi ha connexió a la base de dades.</p>";
@@ -57,8 +55,8 @@ function crear_incidencia($conn)
     <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
-    <div class="page-content" style="max-width: 1500px;">
-        <div class="topbar" style="margin: 20px;">
+    <div class="page-content" style="max-width: 50%;">
+        <div class="topbar" style="margin: 15px;">
             <a href="#" onclick="history.back(); return false;" class="btn btn-secondary">Tornar</a>  
         </div>
 
@@ -66,7 +64,6 @@ function crear_incidencia($conn)
             <h1>Crear incidència</h1>
             
             <?php
-            // Solo ejecutamos y mostramos mensaje si se ha enviado el formulario
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo crear_incidencia($conn);
             }
@@ -101,5 +98,8 @@ function crear_incidencia($conn)
             </div>
         </div>
     </div>
+    <?php
+    include_once "footer.php";
+    ?>
 </body>
 </html>

@@ -1,3 +1,6 @@
+<?php 
+require_once 'header.php';
+?>
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -10,16 +13,8 @@
 </head>
 <body>
 
-<div class="encabezado">
-    <div class="nav_menu">
-            <button type="submit" class="nav_btn"><a href="index.php"><img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo"></a></button>
-        </div>
-    <div class="brand">GI3P</div>
-    <h1>Institut Pedralbes</h1>
-    <p>Àrea de clients</p>
-</div>
 <div class="page-content">
-    <div class="topbar">
+    <div class="topbar" style="margin: 15px;">
         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>
 <div class="page-content" style="max-width: 760px;">
@@ -37,5 +32,8 @@
     </div>
 </div>
 </div>
+<?php
+include_once "footer.php";
+?>
 </body>
 </html>

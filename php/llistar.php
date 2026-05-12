@@ -13,21 +13,12 @@ require_once 'connexio.php';
     <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
-
-<div class="encabezado">
-    <img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo">
-    <div class="brand">GI3P</div>
-    <h1>Institut Pedralbes</h1>
-    <p>Llistat d'incidències</p>
-</div>
-
 <div class="page-content">
-    <div class="topbar">
+    <h1>Llistat d'incidències</h1>
+    <div class="topbar" style="margin: 15px;">
          <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
-        <a href="crear.php" class="btn btn-primary">Nova incidència</a>
+        <a href="crear_incidencia.php" class="btn btn-primary">Nova incidència</a>
     </div>
-
-    <h2 class="page-title">Totes les incidències</h2>
 
     <?php
     $sql = "SELECT ID_Incidencia, ID_Tecnic, Descripcio FROM INCIDENCIA";
@@ -61,7 +52,8 @@ require_once 'connexio.php';
         <div class="alert alert-info">No hi ha incidències a mostrar.</div>
     <?php endif; ?>
 
-    <?php $conn->close(); ?>
+    <?php $conn->close(); 
+    include_once "footer.php";?>
 </div>
 
 </body>
