@@ -19,7 +19,7 @@
     <p>Tens un problema? Digueu-nos</p>
 </div>  
 
-<div class="page-content" style="max-width: 600px;">
+<div class="page-content" style="max-width: 600px, height: 100%;">
     <p class="text-muted mb-3">Com vols accedir-hi?</p>
 
     <div class="nav-grid">
