@@ -16,7 +16,7 @@ require_once 'header.php';
         <div class="topbar" style="margin: 15px;">
             <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
         </div>
-    <div class="page-content" style="max-width: 600px;">
+    <div class="page-content" style="max-width: 600px, height: 100%;">
         <p class="text-muted mb-3">Selecciona una opció</p>
 
         <div class="nav-grid">
