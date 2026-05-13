@@ -9,7 +9,7 @@ include_once "header.php";
 /**
  * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
  * @param mixed $conn
- * @return void0
+ * @return void
  */
 
 // Mostrar todos los errores y advertencias en pantalla
