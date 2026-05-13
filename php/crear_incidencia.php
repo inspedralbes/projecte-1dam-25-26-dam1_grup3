@@ -16,7 +16,6 @@ function crear_incidencia($conn)
     $prioridad = $_POST['Prioridad'] ?? '';
     $descripcio = $_POST['Descripcio'] ?? '';
 
-    // Verificar si el departament existeix
     $sql_check = "SELECT ID_Departament FROM DEPARTAMENT WHERE ID_Departament = ?";
     $stmt_check = $conn->prepare($sql_check);
     $stmt_check->bind_param("i", $id_departament);
@@ -27,10 +26,6 @@ function crear_incidencia($conn)
         return "<div class='alert alert-danger'>No es pot assignar una incidència en un departament que no existeix (ID: $id_departament).</div>";
     }
     $stmt_check->close();
-
-    if (empty($descripcio)) {
-        return "<div class='alert alert-warning'>La descripció no pot estar buida.</div>";
-    }
 
     $sql = "INSERT INTO INCIDENCIA (ID_Departament, Data_FIN, Prioridad, Descripcio) VALUES (?, ?, ?, ?)";
     $sentencia = $conn->prepare($sql);
@@ -62,7 +57,7 @@ function crear_incidencia($conn)
 <body>
     <div class="page-content" style="max-width: 50%, height: 100%;">
         <div class="topbar" style="margin: 15px;">
-            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary">Tornar</a>
+            <a href="index_client.php" class="btn btn-secondary">Tornar</a>
         </div>
 
         <div class="container mt-4">
@@ -95,7 +90,7 @@ function crear_incidencia($conn)
                     </div>
                     <div class="mb-3">
                         <label for="Data_FIN" class="form-label">Data de finalització</label>
-                        <input type="text" id="Data_FIN" class="form-control" name="Data_FIN" required value="2024-12-31">
+                        <input type="text" id="Data_FIN" class="form-control" name="Data_FIN" required placeholder="2024-12-31">
                     </div>
 
                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button>
@@ -106,5 +101,6 @@ function crear_incidencia($conn)
     <?php
     include_once "footer.php";
     ?>
+    <script src="js/errors_crear.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ require_once 'header.php';
     <body>
     <div class="page-content">
         <div class="topbar" style="margin: 15px;">
-            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>
+            <a href="index.php" class="btn btn-secondary"> Tornar</a>
         </div>
     <div class="page-content" style="max-width: 600px, height: 100%;">
         <p class="text-muted mb-3">Selecciona una opció</p>
@@ -28,10 +28,6 @@ require_once 'header.php';
             <a href="afegir_actuacio.php" class="nav-card">
                 <div class="nav-label">Afegir actuació</div>
                 <div class="nav-desc">Afegeix el temps i si esta finalitzat</div>
-            </a>
-            <a href="afegir_actuacio.php" class="nav-card">
-                <div class="nav-label">Afegir actuació</div>
-                <div class="nav-desc">Registra un nou temps d'actuació</div>
             </a>
         </div>
     </div>

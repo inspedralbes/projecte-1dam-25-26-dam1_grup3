@@ -26,7 +26,7 @@ $result = $conn->query($sql);
 <body>
     <div class="page-content" style="height: 100%;">
         <div class="topbar" style="margin: 15px;">
-         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+         <a href="index_admin.php" class="btn btn-secondary"> Tornar</a>
     </div>
     <h1>Resum per departament</h1>
 

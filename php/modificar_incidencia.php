@@ -51,8 +51,8 @@ function prioritatBadge($p) {
 <body>
 
 <div class="page-content" style="height: 100%;">
-     <div class="topbar" style="margin: 15px;">
-        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>
+    <div class="topbar" style="margin: 15px;">
+        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a> 
     </div>
 
     <h1>Modificar Incidències</h1>
@@ -132,5 +132,6 @@ function prioritatBadge($p) {
 <?php
 include_once "footer.php";
 ?>
+<script src="js/errors_modificar.js"></script>
 </body>
 </html>

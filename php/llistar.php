@@ -16,19 +16,19 @@ require_once 'connexio.php';
 <div class="page-content" style="height: 100%;">
     <h1>Llistat d'incidències</h1>
     <div class="topbar" style="margin: 15px;">
-         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+         <a href="index_admin.php" class="btn btn-secondary"> Tornar</a>
         <a href="crear_incidencia.php" class="btn btn-primary">Nova incidència</a>
     </div>
 
     <?php
-   $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria 
+    $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria 
             FROM INCIDENCIA i
             INNER JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo";
     $result = $conn->query($sql);
     $incidencies = $result->fetch_all(MYSQLI_ASSOC);
     if ($result->num_rows > 0): ?>
-        <table class="data-table">
-            <thead>
+    <table class="table data-table">
+        <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Tècnic</th>
@@ -36,37 +36,37 @@ require_once 'connexio.php';
                     <th>Tipus</th>
                     <th>Accions</th>
                 </tr>
-            </thead> 
+        </thead> 
             <tbody>
-                <?php foreach ($incidencies as $row): 
+                <?php foreach ($incidencies as $incidencia): 
                     $color = "";
-                    $tipo = $row["Categoria"] ?? ""; 
 
-                    if ($tipo == "Software") {
+                    if ($incidencia['Categoria'] == "Software") {
                         $color = "table-light";
-                    } elseif ($tipo == "Hardware") {
+                    } elseif ($incidencia['Categoria'] == "Hardware") {
                         $color = "table-primary";
-                    } elseif ($tipo == "Xarxa") {
+                    } elseif ($incidencia['Categoria'] == "Xarxa") {
                         $color = "table-danger";
-                    } elseif ($tipo == "Seguretat") {
+                    } elseif ($incidencia['Categoria'] == "Seguretat") {
                         $color = "table-info";
-                    } elseif ($tipo == "Altres") {
+                    } elseif ($incidencia['Categoria'] == "Altres") {
                         $color = "table-dark text-white";
                     }
                 ?>
-                <tr class="<?= $color ?>">
-                    <td><span style="font-family:'DM Mono',monospace;font-size:13px;">#<?= $row['ID_Incidencia'] ?></span></td>
-                    <td><?= $row['ID_Tecnic'] ? htmlspecialchars($row['ID_Tecnic']) : '<span class="text-muted">—</span>' ?></td>
-                    <td><?= htmlspecialchars($row['Descripcio']) ?></td>
-                    <td><?= htmlspecialchars($row['Categoria']) ?></td>
+                <tr class="<?php echo $color; ?>">
+                    <td><span style="font-family:'DM Mono',monospace;font-size:13px;">#<?= $incidencia['ID_Incidencia'] ?></span></td> 
+                    <td><?= $incidencia['ID_Tecnic'] ? htmlspecialchars($incidencia['ID_Tecnic']) : '<span class="text-muted">—</span>' ?></td>
+                    <td><?= htmlspecialchars($incidencia['Descripcio']) ?></td>
+                    <td><?= htmlspecialchars($incidencia['Categoria']) ?></td>
                     <td>
-                        <a href="esborrar.php?id=<?= $row['ID_Incidencia'] ?>" class="btn btn-sm btn-danger"
-                           onclick="return confirm('Segur que vols esborrar la incidència #<?= $row['ID_Incidencia'] ?>?')">Esborrar</a>
+                        <a href="esborrar.php?id=<?= $incidencia['ID_Incidencia'] ?>" class="btn btn-sm btn-danger"
+                           onclick="return confirm('Segur que vols esborrar la incidència #<?= $incidencia['ID_Incidencia'] ?>?')">Esborrar</a>
+                        <a href="modificar_incidencia.php?id=<?= $incidencia['ID_Incidencia'] ?>" class="btn btn-sm btn-secondary" onclick="return confirm('Segur que vols modificar la incidència #<?= $incidencia['ID_Incidencia'] ?>?')">Modificar</a>
                     </td>
                 </tr>
                <?php endforeach; ?>
             </tbody>
-        </table>
+    </table>
     <?php else: ?>
         <div class="alert alert-info">No hi ha incidències a mostrar.</div>
     <?php endif; ?>
