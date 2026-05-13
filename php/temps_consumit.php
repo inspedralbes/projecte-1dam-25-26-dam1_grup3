@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
 require_once 'connexio.php';
+require_once 'logger.php';
 
 
 $sql = 'SELECT d.ID_Departament, d.Nom AS departament,
