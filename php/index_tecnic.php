@@ -21,18 +21,15 @@ require_once 'header.php';
         <p class="text-muted mb-3">Selecciona una opció</p>
 
         <div class="nav-grid">
-            <a href="detalls_incidencia.php" class="nav-card">
-                <div class="nav-label">Informació incidència</div>
-                <div class="nav-desc">Consulta detalls i actuacions</div>
+            <a href="llistar.php" class="nav-card">
+                <div class="nav-label">Llistar incidencies</div>
+                <div class="nav-desc">Consulta les incidencies</div>
             </a>
-            <a href="modificar_incidencia.php" class="nav-card">
-                <div class="nav-label">Modificar incidència</div>
-                <div class="nav-desc">Assigna tècnic, prioritat i tipus</div>
+            <a href="afegir_actuacio.php" class="nav-card">
+                <div class="nav-label">Afegir actuació</div>
+                <div class="nav-desc">Afegeix el temps i si esta finalitzat</div>
             </a>
-            <a href="temps_consumit.php" class="nav-card">
-                <div class="nav-label">Temps consumit</div>
-                <div class="nav-desc">Temps per departament</div>
-            </a>
+
         </div>
     </div>
     </div>
