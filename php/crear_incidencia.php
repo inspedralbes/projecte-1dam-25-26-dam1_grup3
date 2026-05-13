@@ -1,6 +1,6 @@
 <?php
-include_once "header.php";
-include_once "connexio.php";
+require_once 'connexio.php';
+require_once 'logger.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -20,7 +20,7 @@ function crear_incidencia($conn)
     $stmt_check = $conn->prepare($sql_check);
     $stmt_check->bind_param("i", $id_departament);
     $stmt_check->execute();
-    
+
     if ($stmt_check->get_result()->num_rows === 0) {
         $stmt_check->close();
         return "<div class='alert alert-danger'>No es pot assignar una incidència en un departament que no existeix (ID: $id_departament).</div>";
@@ -57,12 +57,12 @@ function crear_incidencia($conn)
 <body>
     <div class="page-content" style="max-width: 50%;">
         <div class="topbar" style="margin: 15px;">
-            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary">Tornar</a>  
+            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary">Tornar</a>
         </div>
 
         <div class="container mt-4">
             <h1>Crear incidència</h1>
-            
+
             <?php
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo crear_incidencia($conn);
@@ -78,7 +78,7 @@ function crear_incidencia($conn)
                     <div class="mb-3">
                         <label for="Descripcio" class="form-label">Descripcio</label>
                         <textarea placeholder="Descripció" class="form-control" name="Descripcio" id="Descripcio" rows="3" required></textarea>
-                    </div>  
+                    </div>
                     <div class="mb-3">
                         <label for="Prioridad" class="form-label">Prioritat</label>
                         <select class="form-control" name="Prioridad" id="Prioridad" required>
@@ -93,7 +93,7 @@ function crear_incidencia($conn)
                         <input type="text" id="Data_FIN" class="form-control" name="Data_FIN" required value="2024-12-31">
                     </div>
 
-                   <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button> 
+                   <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button>
                 </form>
             </div>
         </div>

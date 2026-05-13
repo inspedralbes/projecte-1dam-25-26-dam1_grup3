@@ -1,5 +1,6 @@
 <?php
 require_once 'connexio.php';
+require_once 'logger.php';
 include_once "header.php";
 // A. Processar l'actualització
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {
@@ -51,7 +52,7 @@ function prioritatBadge($p) {
 
 <div class="page-content">
      <div class="topbar" style="margin: 15px;">
-        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>
     </div>
 
     <h1>Modificar Incidències</h1>
@@ -87,16 +88,16 @@ function prioritatBadge($p) {
 
                                 <select name="ID_Tecnic" required>
                                     <option value="">Selecciona tècnic…</option>
-                                    <?php 
-                                    $tecnics->data_seek(0); 
-                                    while ($t = $tecnics->fetch_assoc()): 
+                                    <?php
+                                    $tecnics->data_seek(0);
+                                    while ($t = $tecnics->fetch_assoc()):
                                     ?>
                                         <option value="<?= $t['ID_Tecnic'] ?>">
                                             <?= htmlspecialchars($t['Nom']) ?>
                                         </option>
                                     <?php endwhile; ?>
                                 </select>
-                                
+
                                 <button type="submit">Actualizar</button>
                             </form>
                         </td>

@@ -1,4 +1,5 @@
-<?php 
+<?php
+require_once 'logger.php';
 require_once 'header.php';
 ?>
 <!DOCTYPE html>
@@ -15,7 +16,7 @@ require_once 'header.php';
 
 <div class="page-content">
     <div class="topbar" style="margin: 15px;">
-        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>
     </div>
 <div class="page-content" style="max-width: 760px;">
     <p class="text-muted mb-3">Selecciona una opció</p>

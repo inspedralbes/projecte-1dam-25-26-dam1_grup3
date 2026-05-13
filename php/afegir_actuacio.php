@@ -2,6 +2,7 @@
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
+require_once 'logger.php';
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
 /**
