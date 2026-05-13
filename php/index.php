@@ -32,7 +32,11 @@ require_once 'logger.php';
         </a>
         <a href="index_tecnic.php" class="nav-card">
             <div class="nav-label">Tècnic</div>
-            <div class="nav-desc">Gestiona i resol incidències</div>
+            <div class="nav-desc">Resol incidències</div>
+        </a>
+        <a href="index_admin.php" class="nav-card">
+            <div class="nav-label">Administrador</div>
+            <div class="nav-desc">Gestiona incidències</div>
         </a>
     </div>
 </div>
