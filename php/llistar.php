@@ -13,7 +13,7 @@ require_once 'connexio.php';
     <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
-<div class="page-content">
+<div class="page-content" style="height: 100%;">
     <h1>Llistat d'incidències</h1>
     <div class="topbar" style="margin: 15px;">
          <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  

@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
-<div class="page-content" style="max-width: 50%;">
+<div class="page-content" style="max-width: 50%,height: 100%;">
     <div class="topbar" style="margin: 15px";>
         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
     </div>

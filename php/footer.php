@@ -11,7 +11,7 @@
             <p>GI3P - Gestió d'Incidències de l'Institut Pedralbes</p>
             <p>Desenvolupat per l'equip de 1DAM Grup 3</p>
         </div>
-        <p class="text-muted mb-3" style="text-align: center;">© 2024 GI3P. Tots els drets reservats.</p>
+        <p class="text-muted mb-3" style="text-align: center;">2026 GI3P. Tots els drets reservats.</p>
     </footer>
 </body>
 </html>
