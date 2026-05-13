@@ -178,7 +178,7 @@ function document_to_array(array|object $document): array
  * autoEncryption driver option (if available).
  *
  * @internal
- * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/client-side-encryption.rst#collection-encryptedfields-lookup-getencryptedfields
+ * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/client-side-encryption.md#collection-encryptedfields-lookup-getencryptedfields
  * @see Collection::drop()
  * @see Database::createCollection()
  * @see Database::dropCollection()
@@ -194,17 +194,12 @@ function get_encrypted_fields_from_driver(string $databaseName, string $collecti
  * Return a collection's encryptedFields option from the server (if any).
  *
  * @internal
- * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/client-side-encryption.rst#collection-encryptedfields-lookup-getencryptedfields
+ * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/client-side-encryption.md#collection-encryptedfields-lookup-getencryptedfields
  * @see Collection::drop()
  * @see Database::dropCollection()
  */
-function get_encrypted_fields_from_server(string $databaseName, string $collectionName, Manager $manager, Server $server): array|object|null
+function get_encrypted_fields_from_server(string $databaseName, string $collectionName, Server $server): array|object|null
 {
-    // No-op if the encryptedFieldsMap autoEncryption driver option was omitted
-    if ($manager->getEncryptedFieldsMap() === null) {
-        return null;
-    }
-
     $collectionInfoIterator = (new ListCollections($databaseName, ['filter' => ['name' => $collectionName]]))->execute($server);
 
     foreach ($collectionInfoIterator as $collectionInfo) {
@@ -414,8 +409,8 @@ function is_write_concern_acknowledged(WriteConcern $writeConcern): bool
 function server_supports_feature(Server $server, int $feature): bool
 {
     $info = $server->getInfo();
-    $maxWireVersion = isset($info['maxWireVersion']) ? (integer) $info['maxWireVersion'] : 0;
-    $minWireVersion = isset($info['minWireVersion']) ? (integer) $info['minWireVersion'] : 0;
+    $maxWireVersion = isset($info['maxWireVersion']) ? (int) $info['maxWireVersion'] : 0;
+    $minWireVersion = isset($info['minWireVersion']) ? (int) $info['minWireVersion'] : 0;
 
     return $minWireVersion <= $feature && $maxWireVersion >= $feature;
 }
@@ -611,7 +606,7 @@ function select_server(Manager $manager, array $options): Server
  * must be forced due to the existence of pre-5.0 servers in the topology.
  *
  * @internal
- * @see https://github.com/mongodb/specifications/blob/master/source/crud/crud.rst#aggregation-pipelines-with-write-stages
+ * @see https://github.com/mongodb/specifications/blob/master/source/crud/crud.md#aggregation-pipelines-with-write-stages
  */
 function select_server_for_aggregate_write_stage(Manager $manager, array &$options): Server
 {

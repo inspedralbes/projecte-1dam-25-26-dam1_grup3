@@ -69,23 +69,24 @@ use MongoDB\Operation\UpdateOne;
 use MongoDB\Operation\UpdateSearchIndex;
 use MongoDB\Operation\Watch;
 use stdClass;
+use Stringable;
 
 use function array_diff_key;
 use function array_intersect_key;
 use function array_key_exists;
 use function current;
 use function is_array;
+use function is_bool;
 use function strlen;
 
-class Collection
+/** @phpstan-import-type OperationType from BulkWrite */
+class Collection implements Stringable
 {
     private const DEFAULT_TYPE_MAP = [
         'array' => BSONArray::class,
         'document' => BSONDocument::class,
         'root' => BSONDocument::class,
     ];
-
-    private const WIRE_VERSION_FOR_READ_CONCERN_WITH_WRITE_STAGE = 8;
 
     /** @psalm-var Encoder<array|stdClass|Document|PackedArray, mixed> */
     private readonly Encoder $builderEncoder;
@@ -99,6 +100,8 @@ class Collection
     private array $typeMap;
 
     private WriteConcern $writeConcern;
+
+    private bool $autoEncryptionEnabled;
 
     /**
      * Constructs new Collection instance.
@@ -167,12 +170,17 @@ class Collection
             throw InvalidArgumentException::invalidType('"writeConcern" option', $options['writeConcern'], WriteConcern::class);
         }
 
+        if (isset($options['autoEncryptionEnabled']) && ! is_bool($options['autoEncryptionEnabled'])) {
+            throw InvalidArgumentException::invalidType('"autoEncryptionEnabled" option', $options['autoEncryptionEnabled'], 'boolean');
+        }
+
         $this->builderEncoder = $options['builderEncoder'] ?? new BuilderEncoder();
         $this->codec = $options['codec'] ?? null;
         $this->readConcern = $options['readConcern'] ?? $this->manager->getReadConcern();
         $this->readPreference = $options['readPreference'] ?? $this->manager->getReadPreference();
         $this->typeMap = $options['typeMap'] ?? self::DEFAULT_TYPE_MAP;
         $this->writeConcern = $options['writeConcern'] ?? $this->manager->getWriteConcern();
+        $this->autoEncryptionEnabled = $options['autoEncryptionEnabled'] ?? false;
     }
 
     /**
@@ -227,23 +235,16 @@ class Collection
         $hasWriteStage = is_last_pipeline_operator_write($pipeline);
 
         $options = $this->inheritReadPreference($options);
-
-        $server = $hasWriteStage
-            ? select_server_for_aggregate_write_stage($this->manager, $options)
-            : select_server($this->manager, $options);
-
-        /* MongoDB 4.2 and later supports a read concern when an $out stage is
-         * being used, but earlier versions do not.
-         */
-        if (! $hasWriteStage || server_supports_feature($server, self::WIRE_VERSION_FOR_READ_CONCERN_WITH_WRITE_STAGE)) {
-            $options = $this->inheritReadConcern($options);
-        }
-
+        $options = $this->inheritReadConcern($options);
         $options = $this->inheritCodecOrTypeMap($options);
 
         if ($hasWriteStage) {
             $options = $this->inheritWriteOptions($options);
         }
+
+        $server = $hasWriteStage
+            ? select_server_for_aggregate_write_stage($this->manager, $options)
+            : select_server($this->manager, $options);
 
         $operation = new Aggregate($this->databaseName, $this->collectionName, $pipeline, $options);
 
@@ -253,12 +254,13 @@ class Collection
     /**
      * Executes multiple write operations.
      *
-     * @see BulkWrite::__construct() for supported options
-     * @param array[] $operations List of write operations
-     * @param array   $options    Command options
+     * @param list<array{deleteMany: list<array|object>}|array{deleteOne: list<array|object>}|array{insertOne: list<array|object>}|array{replaceOne: list<array|object>}|array{updateMany: list<array|object>}|array{updateOne: list<array|object>}> $operations List of write operations
+     * @psalm-param list<OperationType> $operations List of write operations
+     * @param array                                                                                                                                                                                                                                  $options    Command options
      * @throws UnsupportedException if options are not supported by the selected server
      * @throws InvalidArgumentException for parameter/option parsing errors
      * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
+     * @see BulkWrite::__construct() for supported options
      */
     public function bulkWrite(array $operations, array $options = []): BulkWriteResult
     {
@@ -511,9 +513,9 @@ class Collection
 
         $server = select_server_for_write($this->manager, $options);
 
-        if (! isset($options['encryptedFields'])) {
+        if ($this->autoEncryptionEnabled && ! isset($options['encryptedFields'])) {
             $options['encryptedFields'] = get_encrypted_fields_from_driver($this->databaseName, $this->collectionName, $this->manager)
-                ?? get_encrypted_fields_from_server($this->databaseName, $this->collectionName, $this->manager, $server);
+                ?? get_encrypted_fields_from_server($this->databaseName, $this->collectionName, $server);
         }
 
         $operation = isset($options['encryptedFields'])
@@ -745,12 +747,24 @@ class Collection
     public function findOneAndUpdate(array|object $filter, array|object $update, array $options = []): array|object|null
     {
         $filter = $this->builderEncoder->encodeIfSupported($filter);
+        $update = $this->builderEncoder->encodeIfSupported($update);
         $options = $this->inheritWriteOptions($options);
         $options = $this->inheritCodecOrTypeMap($options);
 
         $operation = new FindOneAndUpdate($this->databaseName, $this->collectionName, $filter, $update, $options);
 
         return $operation->execute(select_server_for_write($this->manager, $options));
+    }
+
+    /** @psalm-return Encoder<array|stdClass|Document|PackedArray, mixed> */
+    public function getBuilderEncoder(): Encoder
+    {
+        return $this->builderEncoder;
+    }
+
+    public function getCodec(): ?DocumentCodec
+    {
+        return $this->codec;
     }
 
     /**
@@ -1044,6 +1058,7 @@ class Collection
     public function withOptions(array $options = []): Collection
     {
         $options += [
+            'autoEncryptionEnabled' => $this->autoEncryptionEnabled,
             'builderEncoder' => $this->builderEncoder,
             'codec' => $this->codec,
             'readConcern' => $this->readConcern,

@@ -30,7 +30,7 @@ use function array_key_exists;
  * collection. It provides methods to access options for the collection.
  *
  * @see \MongoDB\Database::listCollections()
- * @see https://github.com/mongodb/specifications/blob/master/source/enumerate-collections.rst
+ * @see https://github.com/mongodb/specifications/blob/master/source/enumerate-collections.md
  * @template-implements ArrayAccess<string, mixed>
  */
 class CollectionInfo implements ArrayAccess
@@ -58,7 +58,7 @@ class CollectionInfo implements ArrayAccess
     public function getCappedMax(): ?int
     {
         /* The MongoDB server might return this number as an integer or float */
-        return isset($this->info['options']['max']) ? (integer) $this->info['options']['max'] : null;
+        return isset($this->info['options']['max']) ? (int) $this->info['options']['max'] : null;
     }
 
     /**
@@ -69,7 +69,7 @@ class CollectionInfo implements ArrayAccess
     public function getCappedSize(): ?int
     {
         /* The MongoDB server might return this number as an integer or float */
-        return isset($this->info['options']['size']) ? (integer) $this->info['options']['size'] : null;
+        return isset($this->info['options']['size']) ? (int) $this->info['options']['size'] : null;
     }
 
     /**
@@ -128,6 +128,14 @@ class CollectionInfo implements ArrayAccess
     public function isCapped(): bool
     {
         return ! empty($this->info['options']['capped']);
+    }
+
+    /**
+     * Determines whether the collection is a view.
+     */
+    public function isView(): bool
+    {
+        return $this->getType() === 'view';
     }
 
     /**

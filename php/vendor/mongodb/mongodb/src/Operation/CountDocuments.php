@@ -35,7 +35,7 @@ use function MongoDB\is_document;
  * Operation for obtaining an exact count of documents in a collection
  *
  * @see \MongoDB\Collection::countDocuments()
- * @see https://github.com/mongodb/specifications/blob/master/source/crud/crud.rst#countdocuments
+ * @see https://github.com/mongodb/specifications/blob/master/source/crud/crud.md#countdocuments
  */
 final class CountDocuments
 {
@@ -124,7 +124,7 @@ final class CountDocuments
             throw new UnexpectedValueException('count command did not return a numeric "n" value');
         }
 
-        return (integer) $result->n;
+        return (int) $result->n;
     }
 
     private function createAggregate(): Aggregate

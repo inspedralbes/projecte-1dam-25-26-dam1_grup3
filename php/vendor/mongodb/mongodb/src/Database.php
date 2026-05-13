@@ -51,20 +51,21 @@ use MongoDB\Operation\ModifyCollection;
 use MongoDB\Operation\RenameCollection;
 use MongoDB\Operation\Watch;
 use stdClass;
+use Stringable;
 use Throwable;
 
 use function is_array;
+use function is_bool;
 use function strlen;
 
-class Database
+/** @psalm-no-seal-properties */
+class Database implements Stringable
 {
     private const DEFAULT_TYPE_MAP = [
         'array' => BSONArray::class,
         'document' => BSONDocument::class,
         'root' => BSONDocument::class,
     ];
-
-    private const WIRE_VERSION_FOR_READ_CONCERN_WITH_WRITE_STAGE = 8;
 
     /** @psalm-var Encoder<array|stdClass|Document|PackedArray, mixed> */
     private readonly Encoder $builderEncoder;
@@ -76,6 +77,8 @@ class Database
     private array $typeMap;
 
     private WriteConcern $writeConcern;
+
+    private bool $autoEncryptionEnabled;
 
     /**
      * Constructs new Database instance.
@@ -133,11 +136,16 @@ class Database
             throw InvalidArgumentException::invalidType('"writeConcern" option', $options['writeConcern'], WriteConcern::class);
         }
 
+        if (isset($options['autoEncryptionEnabled']) && ! is_bool($options['autoEncryptionEnabled'])) {
+            throw InvalidArgumentException::invalidType('"autoEncryptionEnabled" option', $options['autoEncryptionEnabled'], 'boolean');
+        }
+
         $this->builderEncoder = $options['builderEncoder'] ?? new BuilderEncoder();
         $this->readConcern = $options['readConcern'] ?? $this->manager->getReadConcern();
         $this->readPreference = $options['readPreference'] ?? $this->manager->getReadPreference();
         $this->typeMap = $options['typeMap'] ?? self::DEFAULT_TYPE_MAP;
         $this->writeConcern = $options['writeConcern'] ?? $this->manager->getWriteConcern();
+        $this->autoEncryptionEnabled = $options['autoEncryptionEnabled'] ?? false;
     }
 
     /**
@@ -220,8 +228,7 @@ class Database
          */
         if (
             ! isset($options['readConcern']) &&
-            ! is_in_transaction($options) &&
-            ( ! $hasWriteStage || server_supports_feature($server, self::WIRE_VERSION_FOR_READ_CONCERN_WITH_WRITE_STAGE))
+            ! is_in_transaction($options)
         ) {
             $options['readConcern'] = $this->readConcern;
         }
@@ -268,7 +275,7 @@ class Database
      * collection.
      *
      * @see CreateCollection::__construct() for supported options
-     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/client-side-encryption.rst#create-collection-helper
+     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/client-side-encryption.md#create-collection-helper
      * @see https://www.mongodb.com/docs/manual/core/queryable-encryption/fundamentals/manage-collections/
      * @throws UnsupportedException if options are not supported by the selected server
      * @throws InvalidArgumentException for parameter/option parsing errors
@@ -372,9 +379,9 @@ class Database
             $options['writeConcern'] = $this->writeConcern;
         }
 
-        if (! isset($options['encryptedFields'])) {
+        if ($this->autoEncryptionEnabled && ! isset($options['encryptedFields'])) {
             $options['encryptedFields'] = get_encrypted_fields_from_driver($this->databaseName, $collectionName, $this->manager)
-                ?? get_encrypted_fields_from_server($this->databaseName, $collectionName, $this->manager, $server);
+                ?? get_encrypted_fields_from_server($this->databaseName, $collectionName, $server);
         }
 
         $operation = isset($options['encryptedFields'])
@@ -401,6 +408,7 @@ class Database
             'readPreference' => $this->readPreference,
             'typeMap' => $this->typeMap,
             'writeConcern' => $this->writeConcern,
+            'autoEncryptionEnabled' => $this->autoEncryptionEnabled,
         ];
 
         return new Collection($this->manager, $this->databaseName, $collectionName, $options);
@@ -412,6 +420,25 @@ class Database
     public function getDatabaseName(): string
     {
         return $this->databaseName;
+    }
+
+    /**
+     * Returns a GridFS bucket instance.
+     *
+     * @see Bucket::__construct() for supported options
+     * @param array $options Bucket constructor options
+     * @throws InvalidArgumentException for parameter/option parsing errors
+     */
+    public function getGridFSBucket(array $options = []): Bucket
+    {
+        $options += [
+            'readConcern' => $this->readConcern,
+            'readPreference' => $this->readPreference,
+            'typeMap' => $this->typeMap,
+            'writeConcern' => $this->writeConcern,
+        ];
+
+        return new Bucket($this->manager, $this->databaseName, $options);
     }
 
     /**
@@ -568,14 +595,7 @@ class Database
      */
     public function selectGridFSBucket(array $options = []): Bucket
     {
-        $options += [
-            'readConcern' => $this->readConcern,
-            'readPreference' => $this->readPreference,
-            'typeMap' => $this->typeMap,
-            'writeConcern' => $this->writeConcern,
-        ];
-
-        return new Bucket($this->manager, $this->databaseName, $options);
+        return $this->getGridFSBucket($options);
     }
 
     /**
@@ -623,6 +643,7 @@ class Database
     public function withOptions(array $options = []): Database
     {
         $options += [
+            'autoEncryptionEnabled' => $this->autoEncryptionEnabled,
             'builderEncoder' => $this->builderEncoder,
             'readConcern' => $this->readConcern,
             'readPreference' => $this->readPreference,
