@@ -21,9 +21,11 @@ require_once 'connexio.php';
     </div>
 
     <?php
-    $sql = "SELECT ID_Incidencia, ID_Tecnic, Descripcio FROM INCIDENCIA";
+   $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria 
+            FROM INCIDENCIA i
+            INNER JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo";
     $result = $conn->query($sql);
-
+    $incidencies = $result->fetch_all(MYSQLI_ASSOC);
     if ($result->num_rows > 0): ?>
         <table class="data-table">
             <thead>
@@ -31,21 +33,38 @@ require_once 'connexio.php';
                     <th>ID</th>
                     <th>Tècnic</th>
                     <th>Descripció</th>
+                    <th>Tipus</th>
                     <th>Accions</th>
                 </tr>
-            </thead>
+            </thead> 
             <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-muted)">#<?= $row['ID_Incidencia'] ?></span></td>
+                <?php foreach ($incidencies as $row): 
+                    $color = "";
+                    $tipo = $row["Categoria"] ?? ""; 
+
+                    if ($tipo == "Software") {
+                        $color = "table-light";
+                    } elseif ($tipo == "Hardware") {
+                        $color = "table-primary";
+                    } elseif ($tipo == "Xarxa") {
+                        $color = "table-danger";
+                    } elseif ($tipo == "Seguretat") {
+                        $color = "table-info";
+                    } elseif ($tipo == "Altres") {
+                        $color = "table-dark text-white";
+                    }
+                ?>
+                <tr class="<?= $color ?>">
+                    <td><span style="font-family:'DM Mono',monospace;font-size:13px;">#<?= $row['ID_Incidencia'] ?></span></td>
                     <td><?= $row['ID_Tecnic'] ? htmlspecialchars($row['ID_Tecnic']) : '<span class="text-muted">—</span>' ?></td>
                     <td><?= htmlspecialchars($row['Descripcio']) ?></td>
+                    <td><?= htmlspecialchars($row['Categoria']) ?></td>
                     <td>
-                        <a href="esborrar.php?id=<?= $row['ID_Incidencia'] ?>" class="btn btn-danger"
+                        <a href="esborrar.php?id=<?= $row['ID_Incidencia'] ?>" class="btn btn-sm btn-danger"
                            onclick="return confirm('Segur que vols esborrar la incidència #<?= $row['ID_Incidencia'] ?>?')">Esborrar</a>
                     </td>
                 </tr>
-                <?php endwhile; ?>
+               <?php endforeach; ?>
             </tbody>
         </table>
     <?php else: ?>

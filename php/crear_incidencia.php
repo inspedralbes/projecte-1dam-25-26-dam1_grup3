@@ -37,7 +37,11 @@ function crear_incidencia($conn)
     $sentencia->bind_param("isss", $id_departament, $data_fin, $prioridad, $descripcio);
 
     if ($sentencia->execute()) {
-        $resultado = "<div class='alert alert-success'>Incidència creada amb èxit!</div>";
+        $id = $conn->insert_id; 
+        $resultado = "<div class='alert alert-success'>
+                        Incidència creada amb èxit! <br> 
+                        <strong>ID de la incidència: #$id</strong>
+                      </div>";
     } else {
         $resultado = "<div class='alert alert-danger'>Error: " . htmlspecialchars($sentencia->error) . "</div>";
     }

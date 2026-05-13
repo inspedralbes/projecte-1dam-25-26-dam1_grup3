@@ -33,6 +33,10 @@ require_once 'header.php';
                 <div class="nav-label">Temps consumit</div>
                 <div class="nav-desc">Temps per departament</div>
             </a>
+            <a href="afegir_actuacio.php" class="nav-card">
+                <div class="nav-label">Afegir actuació</div>
+                <div class="nav-desc">Registra un nou temps d'actuació</div>
+            </a>
         </div>
     </div>
     </div>
