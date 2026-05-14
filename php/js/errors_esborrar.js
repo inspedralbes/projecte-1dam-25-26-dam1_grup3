@@ -3,7 +3,7 @@
  //   <?php endif; ?>
 //    <?php
 var missatge_tipus = "";
-if (missatge.count() > 0) {
+if (missatge.length == 0) {
     missatge_tipus = "failure";
     alert("No es pot deixar el missatge buit.");
 } else {

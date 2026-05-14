@@ -12,15 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {
     $sql_update = "UPDATE INCIDENCIA SET ID_Tecnic = ?, Prioridad = ?, ID_Tipo = ? WHERE ID_Incidencia = ?";
     $stmt_upd = $conn->prepare($sql_update);
     $stmt_upd->bind_param("isii", $id_tecnic, $prioritat, $id_tipus, $id_inci);
-
+    
     if ($stmt_upd->execute()) {
-        $missatge = "Incidència $id_inci actualitzada correctament.";
-        $missatge_tipus = "success";
+        $stmt_upd->close();
+        $conn->close();
+        header("Location: llistar.php?msg=" . urlencode("Incidència $id_inci actualitzada correctament.") . "&tipo=success");
+        exit();
     } else {
         $missatge = "Error en actualitzar: " . $conn->error;
         $missatge_tipus = "error";
+        $stmt_upd->close();
     }
-    $stmt_upd->close();
 }
 
 // B. Obtenir llistat d'incidències NO RESOLTES
@@ -83,7 +85,7 @@ function prioritatBadge($p) {
                         <td><span class="badge <?= prioritatBadge($row['Prioridad']) ?>"><?= $row['Prioridad'] ?></span></td>
 
                         <td>
-                            <form method="POST" action="llistar.php" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
+                            <form method="POST" action="" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
                                 <input type="hidden" name="ID_Incidencia" value="<?= $row['ID_Incidencia'] ?>">
 
                                 <select name="ID_Tecnic" required>

@@ -1,5 +1,4 @@
 <?php
-include_once "header.php";
 require_once 'connexio.php';
 
 $id_incidencia = $_GET['id'] ?? null;
@@ -12,11 +11,13 @@ $sql = "DELETE FROM INCIDENCIA WHERE ID_Incidencia = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_incidencia);
 if ($stmt->execute()) {
-    $missatge = "Incidència $id_incidencia eliminada correctament.";
-    $missatge_tipus = "success";
+    $msg = urlencode("Incidència $id_incidencia eliminada correctament.");
+    header("Location: llistar.php?msg=$msg&tipo=success");
+    exit();
 } else {
-    $missatge = "Error en eliminar: " . $conn->error;
-    $missatge_tipus = "error";
+    $msg = urlencode("Error en eliminar: " . $conn->error);
+    header("Location: llistar.php?msg=$msg&tipo=error");
+    exit();
 }
 $stmt->close();
 ?>

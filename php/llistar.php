@@ -1,6 +1,9 @@
 <?php
 include_once "header.php";
 require_once 'connexio.php';
+
+$msg = $_GET['msg'] ?? '';
+$tipo = $_GET['tipo'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="ca">
@@ -21,9 +24,10 @@ require_once 'connexio.php';
     </div>
 
     <?php
-    $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria 
-            FROM INCIDENCIA i
-            INNER JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo";
+    $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria, i.Data_Inici 
+        FROM INCIDENCIA i
+        INNER JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo
+        ORDER BY i.Data_Inici DESC";
     $result = $conn->query($sql);
     $incidencies = $result->fetch_all(MYSQLI_ASSOC);
     if ($result->num_rows > 0): ?>
@@ -34,6 +38,7 @@ require_once 'connexio.php';
                     <th>Tècnic</th>
                     <th>Descripció</th>
                     <th>Tipus</th>
+                    <th>Data Inici</th>
                     <th>Accions</th>
                 </tr>
         </thead> 
@@ -58,6 +63,7 @@ require_once 'connexio.php';
                     <td><?= $incidencia['ID_Tecnic'] ? htmlspecialchars($incidencia['ID_Tecnic']) : '<span class="text-muted">—</span>' ?></td>
                     <td><?= htmlspecialchars($incidencia['Descripcio']) ?></td>
                     <td><?= htmlspecialchars($incidencia['Categoria']) ?></td>
+                    <td><?= htmlspecialchars($incidencia['Data_Inici']) ?></td>
                     <td>
                         <a href="esborrar.php?id=<?= $incidencia['ID_Incidencia'] ?>" class="btn btn-sm btn-danger"
                            onclick="return confirm('Segur que vols esborrar la incidència #<?= $incidencia['ID_Incidencia'] ?>?')">Esborrar</a>
@@ -74,6 +80,10 @@ require_once 'connexio.php';
     <?php $conn->close(); 
     include_once "footer.php";?>
 </div>
-
+<script>
+    window.phpMessage = "<?= htmlspecialchars($msg, ENT_QUOTES, 'UTF-8') ?>";
+    window.phpMessageType = "<?= htmlspecialchars($tipo, ENT_QUOTES, 'UTF-8') ?>";
+</script>
+<script src="js/errors_esborrar.js"></script>
 </body>
 </html>
