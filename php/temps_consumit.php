@@ -9,10 +9,9 @@ $sql = 'SELECT d.ID_Departament, d.Nom AS departament,
         SUM(a.Temps) AS temps
         FROM DEPARTAMENT d
         LEFT JOIN INCIDENCIA i ON i.ID_Departament = d.ID_Departament
-        LEFT JOIN Actuacions a ON a.ID_Incidencia = i.ID_Incidencia
+        LEFT JOIN Actuaciones a ON a.ID_Incidencia = i.ID_Incidencia
         GROUP BY d.ID_Departament, d.Nom
         ORDER BY d.Nom';
-
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -25,10 +24,9 @@ $result = $conn->query($sql);
     <link rel="icon" type="image/jpg" href="img/icon.jpg">
 </head>
 <body>
-
-<div class="page-content" style="height: 100%;">
-    <div class="topbar" style="margin: 15px;">
-         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>  
+    <div class="page-content" style="height: 100%;">
+        <div class="topbar" style="margin: 15px;">
+         <a href="index_admin.php" class="btn btn-secondary"> Tornar</a>
     </div>
     <h1>Resum per departament</h1>
 

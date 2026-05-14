@@ -1,3 +1,13 @@
+<?php
+include_once "header.php";
+require_once 'connexio.php';
+
+$id_incidencia = $_GET['id'] ?? null;
+
+if (!$id_incidencia) {
+    die("ID de la incidència no especificat.");
+}
+
 $sql = "DELETE FROM INCIDENCIA WHERE ID_Incidencia = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_incidencia);
@@ -9,7 +19,8 @@ if ($stmt->execute()) {
     $missatge_tipus = "error";
 }
 $stmt->close();
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="ca">
 <head>
     <meta charset="UTF-8">

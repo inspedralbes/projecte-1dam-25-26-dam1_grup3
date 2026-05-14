@@ -1,19 +1,31 @@
-function validarTecnic(formulario) {
-    const formData = new FormData(formulario);
-    const datos = Object.fromEntries(formData.entries());
-    if (!datos.ID_Tecnic) {
-        alert("Por favor, selecciona un técnico.");
+function validarTecnic(formulari) {
+    const formData = new FormData(formulari);
+    const dades = Object.fromEntries(formData.entries());
+    if (!dades.ID_Tecnic) {
+        alert("Si us plau, seleccioni un tècnic.");
         return false;
     }
-    if (!datos.ID_Incidencia) {
-        alert("Error crítico: No se encuentra el ID de la incidencia.");
+    if (!dades.ID_Incidencia) {
+        alert("No es troba l'ID de la incidència.");
         return false;
     }
-    const confirmar = confirm(`¿Asignar técnico a la incidencia #${datos.ID_Incidencia}?`);
+    const confirmar = confirm(`Assignar tècnic a la incidència #${dades.ID_Incidencia}?`);
     
     if (confirmar) {
         return true;
     } else {
         return false
     }
+}
+
+ // <?php if (isset($missatge)): ?>
+        // <div class="alert alert-<?= $missatge_tipus ?>"><?= htmlspecialchars($missatge) ?></div>
+    // <?php endif; ?>
+var missatge_tipus = "";
+if (missatge.length > 0) {
+    missatge_tipus = "failure";
+    alert("No es pot deixar el missatge buit.");
+} else {
+    missatge_tipus = "success";
+    alert("Incidencia modificada correctament!")
 }

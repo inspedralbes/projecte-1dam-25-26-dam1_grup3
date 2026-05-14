@@ -51,8 +51,8 @@ function prioritatBadge($p) {
 <body>
 
 <div class="page-content" style="height: 100%;">
-     <div class="topbar" style="margin: 15px;">
-        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>
+    <div class="topbar" style="margin: 15px;">
+        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a> 
     </div>
 
     <h1>Modificar Incidències</h1>
@@ -83,7 +83,7 @@ function prioritatBadge($p) {
                         <td><span class="badge <?= prioritatBadge($row['Prioridad']) ?>"><?= $row['Prioridad'] ?></span></td>
 
                         <td>
-                            <form method="POST" action="tu_script.php" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
+                            <form method="POST" action="llistar.php" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
                                 <input type="hidden" name="ID_Incidencia" value="<?= $row['ID_Incidencia'] ?>">
 
                                 <select name="ID_Tecnic" required>
@@ -97,8 +97,6 @@ function prioritatBadge($p) {
                                         </option>
                                     <?php endwhile; ?>
                                 </select>
-
-                                <button type="submit">Actualizar</button>
                             </form>
                         </td>
                         <td>
@@ -134,5 +132,6 @@ function prioritatBadge($p) {
 <?php
 include_once "footer.php";
 ?>
+<script src="js/errors_modificar.js"></script>
 </body>
 </html>

@@ -15,8 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
     $busqueda_realizada = true;
     $id_a_buscar = $_POST['ID_Incidencia'];
 
-    $sql = "SELECT ID_Actuacion, Descripcio, Data_Actuacion, Temps
-        FROM Actuacions
+    $sql = "SELECT ID_Actuacion, Descripcio, Data_Actuacion, Temps, FIN
+        FROM Actuaciones
         WHERE ID_Incidencia = ? AND Visible = 1
         ORDER BY Data_Actuacion ASC";
     $stmt = $conn->prepare($sql);
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
 <body>
 <div class="page-content" style="max-width: 50%,height: 100%;">
     <div class="topbar" style="margin: 15px";>
-        <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a>
+        <a href="index_client.php" class="btn btn-secondary"> Tornar</a>
     </div>
     <h1>Consultar incidència</h1>
 
@@ -76,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
                     <th>Descripció</th>
                     <th>Data</th>
                     <th>Temps consumit</th>
+                    <th>Estat</th>
                 </tr>
             </thead>
             <tbody>
@@ -99,6 +100,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
                         <span class="badge" style="color: #000000;  padding: 5px 10px; border-radius: 4px;">
                             <?= htmlspecialchars($actuacio['Temps'] ?? '0') ?> minuts
                         </span>
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($actuacio['FIN'] ?? 'No finalitzada') ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

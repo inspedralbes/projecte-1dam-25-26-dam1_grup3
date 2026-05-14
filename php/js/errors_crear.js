@@ -11,3 +11,14 @@ function validarFechaPosterior(fechaSeleccionada) {
     console.log("Data vàlida");
     return true;
 }
+if (descripcio.length == 0) {
+    alert("La descripció no pot estar buida.");
+}
+if ($stmt_result.get_result() <= 0 && num_rows == 0) {
+    $stmt_check == close();
+    alert("No es pot assignar una incidència en un departament que no existeix (ID: " + id_departament + ").");
+}
+if ($stmt.execute()) {
+    header("Location: index_client.php?status=success");
+    exit();
+}
