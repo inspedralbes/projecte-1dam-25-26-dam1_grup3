@@ -1,7 +1,6 @@
 <?php
 require_once 'connexio.php';
 require_once 'logger.php';
-include_once "header.php";
 // A. Processar l'actualització
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {
     $id_inci   = $_POST['ID_Incidencia'];
@@ -26,7 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {
 }
 
 // B. Obtenir llistat d'incidències NO RESOLTES
-$sql = "SELECT ID_Incidencia, Descripcio, Prioridad FROM INCIDENCIA WHERE Data_FIN IS NULL";
+$sql = "SELECT i.ID_Incidencia, i.Descripcio, i.Prioridad, t.Nom AS Nom, te.Nom AS Nom_Tecnic
+        FROM INCIDENCIA i
+        LEFT JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo
+        LEFT JOIN TECNIC te ON i.ID_Tecnic = te.ID_Tecnic
+        WHERE i.Data_FIN IS NULL";
 $resultat_incidencies = $conn->query($sql);
 
 // C. Obtenir llistat de tècnics
@@ -40,6 +43,7 @@ function prioritatBadge($p) {
     $map = ['Baja' => 'badge-baja', 'Media' => 'badge-media', 'Alta' => 'badge-alta', 'Crítica' => 'badge-critica'];
     return $map[$p] ?? 'badge-media';
 }
+include_once "header.php";
 ?>
 <!DOCTYPE html>
 <html lang="ca">
@@ -52,7 +56,7 @@ function prioritatBadge($p) {
 </head>
 <body>
 
-<div class="page-content" style="height: 100%;">
+<div class="page-content" style="height: 100%; width: 100%;">
     <div class="topbar" style="margin: 15px;">
         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a> 
     </div>
@@ -64,12 +68,14 @@ function prioritatBadge($p) {
     <?php endif; ?>
 
     <div style="overflow-x: auto;">
-        <table class="data-table">
+        <table class="data-table" style="width: 100%">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Descripció</th>
                     <th>Prioritat actual</th>
+                    <th>Tipus actual</th>
+                    <th>Tècnic actual</th>
                     <th>Assignar tècnic</th>
                     <th>Nova prioritat</th>
                     <th>Tipus</th>
@@ -83,7 +89,8 @@ function prioritatBadge($p) {
                         <td><span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-muted)">#<?= $row['ID_Incidencia'] ?></span></td>
                         <td><?= htmlspecialchars($row['Descripcio']) ?></td>
                         <td><span class="badge <?= prioritatBadge($row['Prioridad']) ?>"><?= $row['Prioridad'] ?></span></td>
-
+                        <td><span class="badge badge-other text-dark"><?= htmlspecialchars($row['Nom'] ?? 'Sense tipus') ?></span></td>
+                        <td><span class="badge badge-other text-dark"><?= htmlspecialchars($row['Nom_Tecnic'] ?? 'No assignat') ?></span></td>
                         <td>
                             <form method="POST" action="" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
                                 <input type="hidden" name="ID_Incidencia" value="<?= $row['ID_Incidencia'] ?>">

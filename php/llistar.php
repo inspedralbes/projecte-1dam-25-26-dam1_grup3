@@ -51,7 +51,6 @@ $tipo = $_GET['tipo'] ?? '';
                 <tr>
                     <th>ID</th>
                     <th>Tècnic</th>
-                    <th></th>
                     <th>Descripció</th>
                     <th>Tipus</th>
                     <th>Data Inici</th>
@@ -66,7 +65,7 @@ $tipo = $_GET['tipo'] ?? '';
 
                     if ($incidencia['Categoria'] == "Software") {
                         $color = "table-light";
-                    } elseif ($incidencia['Categoria'] == "Hardware") {
+                    } elseif ($incidencia['Categoria'] == "Hardware" || $incidencia['Categoria'] == "Teclat" || $incidencia['Categoria'] == "Ratoli") {
                         $color = "table-primary";
                     } elseif ($incidencia['Categoria'] == "Xarxa") {
                         $color = "table-danger";

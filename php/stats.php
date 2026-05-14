@@ -5,6 +5,7 @@
 error_reporting(E_ALL & ~E_DEPRECATED);
 session_start();
 require_once 'logger.php';
+include_once 'header.php';
 
 // ── Connexió MongoDB ───────────────────────────────────────────────────────
 require_once __DIR__ . '/vendor/autoload.php';
@@ -255,20 +256,13 @@ require_once __DIR__ . '/vendor/autoload.php';
 </head>
 <body>
 
-<div class="encabezado">
-    <img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo">
-    <div class="brand">GI3P</div>
-    <h1>Institut Pedralbes</h1>
-    <p>Estadístiques d'Accés</p>
-</div>
-
 <div class="page-content" style="max-width: 1100px; padding: 32px 24px;">
 
     <!-- ── TOPBAR ─────────────────────────────────────────────────────── -->
     <div class="topbar">
-        <a href="index.php" class="btn btn-secondary">← Inici</a>
-        <span style="font-size:13px;color:var(--text-muted);">Panell d'estadístiques d'accés</span>
+        <a href="index_admin.php" class="btn btn-secondary">Inici</a>
     </div>
+    <h1>Panell d'estadístiques d'accés</h1>
 
     <!-- ── RESUM NUMÈRIC ──────────────────────────────────────────────── -->
     <div class="stats-grid">
