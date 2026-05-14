@@ -21,6 +21,7 @@ function afegir_actuacio($conn)
     $visible = $_POST['Visible'];
     $descripcio = $_POST['Descripcio'];
     $temps = $_POST['Temps'];
+    $data_actuacio = $_POST['Data_Actuacio'];
 
     $sql_check = "SELECT ID_Incidencia FROM INCIDENCIA WHERE ID_Incidencia = ?";
     $stmt_check = $conn->prepare($sql_check);
@@ -31,15 +32,11 @@ function afegir_actuacio($conn)
     if ($stmt_check === false) {
         die("Error en preparar la consulta de verificació: " . $conn->error);
     }
-
-    $stmt_check->bind_param("i", $id_incidencia);
-    $stmt_check->execute();
-    $result = $stmt_check->get_result();
     if ($result->num_rows > 0) {
 
-        $sql = "INSERT INTO Actuaciones (ID_Incidencia, FIN, Descripcio, Visible, Temps, Data_Actuacion) VALUES (?, ?, ?, ?, ?, NOW())";
+        $sql = "INSERT INTO Actuaciones (ID_Incidencia, FIN, Descripcio, Visible, Temps, Data_Actuacion) VALUES (?, ?, ?, ?, ?, ?)";
         $sentencia = $conn->prepare($sql);
-        $sentencia->bind_param("iisid", $id_incidencia, $fin, $descripcio, $visible, $temps);
+        $sentencia->bind_param("iisids", $id_incidencia, $fin, $descripcio, $visible, $temps, $data_actuacio);
         if ($sentencia->execute()) {
             echo "<div class='alert alert-success'>Actuació creada amb èxit!</div>";
         } else {
@@ -116,6 +113,10 @@ error_reporting(E_ALL);
                         <label for="Finalitzat" class="form-label">Finalitzat</label>
                         <input type="hidden" name="FIN" id="FIN" value="0">
                         <input type="checkbox" name="FIN" id="FIN" value="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Data_Actuacio" class="form-label">Data de actuacio</label>
+                        <input type="text" id="Data_Actuacio" class="form-control" name="Data_Actuacio" required placeholder="2024-12-31">
                     </div>
                     <button class="btn btn-success">Crear</button></div>
             </form>
