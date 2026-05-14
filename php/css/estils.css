@@ -351,3 +351,25 @@ select.form-control {
 .mt-4 { margin-top: 24px; }
 .mb-3 { margin-bottom: 16px; }
 .text-center { text-align: center; }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+.page-content {
+    flex: 1 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+main, .main-container, .content { 
+    flex: 1; 
+}

@@ -15,22 +15,22 @@ require_once 'header.php';
 <body>
 
 <div class="page-content">
-    <div class="topbar" style="margin: 15px;">
+    <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
         <a href="index.php" class="btn btn-secondary"> Tornar</a>
     </div>
-<div class="page-content" style="max-width: 760px, height: 100%;">
-    <p class="text-muted mb-3">Selecciona una opció</p>
+<div class="container flex-grow-1 d-flex flex-column justify-content-center align-items-center my-4 col-12 col-md-11 col-lg-10">
+    <p>Selecciona una opció</p>
 
-    <div class="nav-grid">
-        <a href="modificar_incidencia.php" class="nav-card">
+    <div class="nav-grid d-flex flex-row gap-3 justify-content-center w-100" style="margin-top: 24px;">
+        <a href="modificar_incidencia.php" class="nav-card w-100">
             <div class="nav-label">Modificar incidencia</div>
             <div class="nav-desc">Assigna tècnic, prioritat i tipus</div>
         </a>
-        <a href="temps_consumit.php" class="nav-card">
+        <a href="temps_consumit.php" class="nav-card w-100">
             <div class="nav-label">Temps consumit</div>
             <div class="nav-desc">Temps per departament</div>
         </a>
-        <a href="stats.php" class="nav-card">
+        <a href="stats.php" class="nav-card w-100">
             <div class="nav-label">Estadistiques</div>
             <div class="nav-desc">Estadisqtiques de la web</div>
         </a>

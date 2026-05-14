@@ -23,27 +23,24 @@ require_once 'logger.php';
     <p>Tens un problema? Digueu-nos</p>
 </div>  
 
-<div class="page-content" style="max-width: 600px, height: 100%;">
-    <p class="text-muted mb-3">Com vols accedir-hi?</p>
+<div class="container flex-grow-1 d-flex flex-column justify-content-center align-items-center my-4 col-md-10 col-lg-8">
+    <p>Com vols accedir-hi?</p>
 
-    <div class="nav-grid">
-        <a href="index_client.php" class="nav-card">
+    <div class="nav-grid d-flex flex-row gap-3 justify-content-center w-100">
+        <a href="index_client.php" class="nav-card w-100">
             <div class="nav-label">Afectat</div>
             <div class="nav-desc">Crea o consulta una incidència</div>
         </a>
-        <a href="index_tecnic.php" class="nav-card">
+        <a href="index_tecnic.php" class="nav-card w-100">
             <div class="nav-label">Tècnic</div>
             <div class="nav-desc">Resol incidències</div>
         </a>
-        <a href="index_admin.php" class="nav-card">
+        <a href="index_admin.php" class="nav-card w-100">
             <div class="nav-label">Administrador</div>
             <div class="nav-desc">Gestiona incidències</div>
         </a>
     </div>
 </div>
-    <?php
-include_once "footer.php";
-?>
-<script src="js/errors.js"></script>
+    <?php include_once "footer.php";?>
 </body>
 </html>

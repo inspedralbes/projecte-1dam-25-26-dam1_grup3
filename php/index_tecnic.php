@@ -14,18 +14,18 @@ require_once 'header.php';
     </head>
     <body>
     <div class="page-content">
-        <div class="topbar" style="margin: 15px;">
+         <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
             <a href="index.php" class="btn btn-secondary"> Tornar</a>
         </div>
-    <div class="page-content" style="max-width: 600px, height: 100%;">
-        <p class="text-muted mb-3">Selecciona una opció</p>
+    <div class="container flex-grow-1 d-flex flex-column justify-content-center align-items-center my-4 col-md-10 col-lg-8">
+        <p>Selecciona una opció</p>
 
-        <div class="nav-grid">
-            <a href="llistar.php" class="nav-card">
+        <div class="nav-grid d-flex flex-row gap-3 justify-content-center w-100" style="margin-top: 24px;">
+            <a href="llistar.php" class="nav-card w-100">
                 <div class="nav-label">Llistar incidencies</div>
                 <div class="nav-desc">Consulta les incidencies</div>
             </a>
-            <a href="afegir_actuacio.php" class="nav-card">
+            <a href="afegir_actuacio.php" class="nav-card w-100">
                 <div class="nav-label">Afegir actuació</div>
                 <div class="nav-desc">Afegeix el temps i si esta finalitzat</div>
             </a>
