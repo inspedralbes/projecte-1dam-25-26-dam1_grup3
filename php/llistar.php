@@ -22,15 +22,30 @@ $tipo = $_GET['tipo'] ?? '';
          <a href="index_admin.php" class="btn btn-secondary"> Tornar</a>
         <a href="crear_incidencia.php" class="btn btn-primary">Nova incidència</a>
     </div>
-
+    <div class="mb-3">
+        <span>Ordenar per: </span>
+        <a href = "llistar.php?orden=prioritat" class="btn btn-secondary">Prioritat</a>
+        <a href="llistar.php?orden=data" class="btn btn-secondary">Data Inici</a>
+    </div>
     <?php
-    $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria, i.Data_Inici 
+    $criteri_ordenacio = "i.Data_Inici DESC";
+    if (isset($_GET['orden'])) {
+        if ($_GET['orden'] == 'prioridad') {
+            $criteri_ordenacio = "FIELD(i.Prioridad, 'Alta', 'Mitja', 'Baixa') ASC";
+            } elseif ($_GET['orden'] == 'data') {
+            $criteri_ordenacio = "i.Data_Inici DESC";
+        }
+    }
+    $incidencies = [];
+    $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria, i.Data_Inici, i.Data_FIN, i.Prioridad
         FROM INCIDENCIA i
         INNER JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo
-        ORDER BY i.Data_Inici DESC";
+        ORDER BY $criteri_ordenacio";
     $result = $conn->query($sql);
-    $incidencies = $result->fetch_all(MYSQLI_ASSOC);
-    if ($result->num_rows > 0): ?>
+    if ($result && $result->num_rows > 0) {
+        $incidencies = $result->fetch_all(MYSQLI_ASSOC);
+    }
+    if (count($incidencies) > 0): ?>
     <table class="table data-table">
         <thead class="table-dark">
                 <tr>
@@ -39,6 +54,8 @@ $tipo = $_GET['tipo'] ?? '';
                     <th>Descripció</th>
                     <th>Tipus</th>
                     <th>Data Inici</th>
+                    <th>Data Final</th>
+                    <th>Prioritat</th>
                     <th>Accions</th>
                 </tr>
         </thead> 
@@ -64,6 +81,8 @@ $tipo = $_GET['tipo'] ?? '';
                     <td><?= htmlspecialchars($incidencia['Descripcio']) ?></td>
                     <td><?= htmlspecialchars($incidencia['Categoria']) ?></td>
                     <td><?= htmlspecialchars($incidencia['Data_Inici']) ?></td>
+                    <td><?= $incidencia['Data_FIN'] ? htmlspecialchars($incidencia['Data_FIN']) : '<span class="text-muted">—</span>' ?></td>
+                    <td><?= htmlspecialchars($incidencia['Prioridad']) ?></td>
                     <td>
                         <a href="esborrar.php?id=<?= $incidencia['ID_Incidencia'] ?>" class="btn btn-sm btn-danger"
                            onclick="return confirm('Segur que vols esborrar la incidència #<?= $incidencia['ID_Incidencia'] ?>?')">Esborrar</a>

@@ -21,6 +21,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
+RUN chown -R www-data:www-data /var/www/html
+
 # Extensió MongoDB per PHP (via PECL)
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 

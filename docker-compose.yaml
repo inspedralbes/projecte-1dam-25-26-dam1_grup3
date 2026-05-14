@@ -15,6 +15,10 @@ services:
       - "8080:80"
     volumes:
       - ./php:/var/www/html
+      - /var/www/html/vendor
+    user: "root" 
+    command: >
+      sh -c "composer install --no-interaction && apache2-foreground"
     environment:
       VAR1: "sóc una pera i estic al docker-compose"
       VAR2: ${VAR2}
