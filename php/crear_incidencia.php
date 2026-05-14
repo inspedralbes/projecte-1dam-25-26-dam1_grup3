@@ -33,7 +33,7 @@ function crear_incidencia($conn)
 
     if ($sentencia->execute()) {
         $id = $conn->insert_id; 
-        $resultado = "<div class='alert alert-success'>
+        $resultado = "<div cjj`plass='alert alert-success'>
                         Incidència creada amb èxit! <br> 
                         <strong>ID de la incidència: #$id</strong>
                       </div>";

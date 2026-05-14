@@ -51,6 +51,7 @@ $tipo = $_GET['tipo'] ?? '';
                 <tr>
                     <th>ID</th>
                     <th>Tècnic</th>
+                    <th></th>
                     <th>Descripció</th>
                     <th>Tipus</th>
                     <th>Data Inici</th>
