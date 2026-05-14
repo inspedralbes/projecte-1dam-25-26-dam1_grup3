@@ -24,10 +24,10 @@ $tipo = $_GET['tipo'] ?? '';
     </div>
 
     <?php
-    $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria, i.Data_Inici 
-        FROM INCIDENCIA i
-        INNER JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo
-        ORDER BY i.Data_Inici DESC";
+    $sql = "SELECT i.ID_Incidencia, i.Prioridad, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria, i.Data_Inici
+            FROM INCIDENCIA i
+            INNER JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo
+            Order by i.Prioridad";
     $result = $conn->query($sql);
     $incidencies = $result->fetch_all(MYSQLI_ASSOC);
     if ($result->num_rows > 0): ?>
@@ -36,10 +36,10 @@ $tipo = $_GET['tipo'] ?? '';
                 <tr>
                     <th>ID</th>
                     <th>Tècnic</th>
+                    <th></th>
                     <th>Descripció</th>
                     <th>Tipus</th>
                     <th>Data Inici</th>
-                    <th>Accions</th>
                 </tr>
         </thead> 
             <tbody>
@@ -64,11 +64,7 @@ $tipo = $_GET['tipo'] ?? '';
                     <td><?= htmlspecialchars($incidencia['Descripcio']) ?></td>
                     <td><?= htmlspecialchars($incidencia['Categoria']) ?></td>
                     <td><?= htmlspecialchars($incidencia['Data_Inici']) ?></td>
-                    <td>
-                        <a href="esborrar.php?id=<?= $incidencia['ID_Incidencia'] ?>" class="btn btn-sm btn-danger"
-                           onclick="return confirm('Segur que vols esborrar la incidència #<?= $incidencia['ID_Incidencia'] ?>?')">Esborrar</a>
-                        <a href="modificar_incidencia.php?id=<?= $incidencia['ID_Incidencia'] ?>" class="btn btn-sm btn-secondary" onclick="return confirm('Segur que vols modificar la incidència #<?= $incidencia['ID_Incidencia'] ?>?')">Modificar</a>
-                    </td>
+
                 </tr>
                <?php endforeach; ?>
             </tbody>
