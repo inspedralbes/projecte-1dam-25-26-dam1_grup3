@@ -22,3 +22,10 @@ if ($stmt.execute()) {
     header("Location: index_client.php?status=success");
     exit();
 }
+document.querySelector('form').addEventListener('submit', function(e) {
+    const dataFin = document.getElementById('Data_FIN').value;
+    if (!dataFin) {
+        alert("Per favor, selecciona una data vàlida.");
+        e.preventDefault();
+    }
+});

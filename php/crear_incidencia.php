@@ -90,7 +90,7 @@ function crear_incidencia($conn)
                     </div>
                     <div class="mb-3">
                         <label for="Data_FIN" class="form-label">Data de finalització</label>
-                        <input type="text" id="Data_FIN" class="form-control" name="Data_FIN" required placeholder="2024-12-31">
+                        <input type="date" name="Data_FIN" id="Data_FIN" class="form-control" required placeholder="2024-12-31">
                     </div>
 
                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear incidència</button>

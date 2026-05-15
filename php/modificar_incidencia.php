@@ -1,6 +1,7 @@
 <?php
 require_once 'connexio.php';
 require_once 'logger.php';
+
 // A. Processar l'actualització
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {
     $id_inci   = $_POST['ID_Incidencia'];
@@ -13,10 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {
     $stmt_upd->bind_param("isii", $id_tecnic, $prioritat, $id_tipus, $id_inci);
     
     if ($stmt_upd->execute()) {
-        $stmt_upd->close();
-        $conn->close();
-        header("Location: llistar.php?msg=" . urlencode("Incidència $id_inci actualitzada correctament.") . "&tipo=success");
-        exit();
+    $stmt_upd->close();
+    header("Location: llistar.php?msg=" . urlencode("Incidència $id_inci actualitzada.") . "&tipo=success");
+    exit();
     } else {
         $missatge = "Error en actualitzar: " . $conn->error;
         $missatge_tipus = "error";
@@ -92,7 +92,7 @@ include_once "header.php";
                         <td><span class="badge badge-other text-dark"><?= htmlspecialchars($row['Nom'] ?? 'Sense tipus') ?></span></td>
                         <td><span class="badge badge-other text-dark"><?= htmlspecialchars($row['Nom_Tecnic'] ?? 'No assignat') ?></span></td>
                         <td>
-                            <form method="POST" action="llistar.php" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
+                            <form method="POST" action="" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
                                 <input type="hidden" name="ID_Incidencia" value="<?= $row['ID_Incidencia'] ?>">
 
                                 <select name="ID_Tecnic" required>

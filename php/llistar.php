@@ -20,7 +20,6 @@ $tipo = $_GET['tipo'] ?? '';
     <h1>Llistat d'incidències</h1>
     <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
          <a href="javascript:history.back()" class="btn btn-secondary"> Tornar</a>
-        <a href="crear_incidencia.php" class="btn btn-primary">Nova incidència</a>
     </div>
     <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
         <span>Ordenar per: </span>
@@ -44,7 +43,7 @@ $tipo = $_GET['tipo'] ?? '';
             i.Data_FIN, 
             i.Prioridad, 
             tip.Nom AS Categoria, 
-            tec.Nom AS Nom_Tecnic -- Aquí definimos la clave que usaremos luego
+            tec.Nom AS Nom_Tecnic
         FROM INCIDENCIA i
         INNER JOIN TIPOLOGIA tip ON i.ID_Tipo = tip.ID_Tipo
         LEFT JOIN TECNIC tec ON i.ID_Tecnic = tec.ID_Tecnic 
