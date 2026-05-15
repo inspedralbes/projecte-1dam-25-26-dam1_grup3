@@ -30,7 +30,6 @@ function crear_incidencia($conn)
     $sql = "INSERT INTO INCIDENCIA (ID_Departament, Data_FIN, Prioridad, Descripcio) VALUES (?, ?, ?, ?)";
     $sentencia = $conn->prepare($sql);
     $sentencia->bind_param("isss", $id_departament, $data_fin, $prioridad, $descripcio);
-
     if ($sentencia->execute()) {
         $id = $conn->insert_id; 
         $resultado = "<div cjj`plass='alert alert-success'>
@@ -77,7 +76,7 @@ function crear_incidencia($conn)
                     </div>
                     <div class="mb-3">
                         <label for="Descripcio" class="form-label">Descripcio</label>
-                        <textarea placeholder="Descripció" class="form-control" name="Descripcio" id="Descripcio" rows="3" required></textarea>
+                        <textarea placeholder="Descripció" class="form-control" name="Descripcio" id="Descripcio" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="Prioridad" class="form-label">Prioritat</label>

@@ -1,12 +1,17 @@
-var error_msg = "";
-if ($result.num_rows > 0) {
-        while ($row = $result.fetch_assoc()) {
-            resultados.push($row);
-        }
-} else {
-    error_msg = "No hi ha actuacions visibles per a la incidència #" + id_a_buscar + ".";
-}
-if (data.length === 0) {
-    error_msg = "No es pot tenir incidencia sense data.";
-    alert(error_msg);
-}
+(function() {
+    const formulario = document.querySelector('form');
+    if (formulario) {
+        formulario.addEventListener('submit', function(e) {
+            const idInput = document.getElementById('ID_Incidencia').value;
+            if (idInput.trim() === "") {
+                alert("Per favor, introdueix un ID d'incidència.");
+                e.preventDefault();
+            }
+        });
+    }
+    if (busquedaRealizada && numResultados === 0) {
+        const errorMsg = "No hi ha actuacions visibles per a la incidència #" + idABuscar + ".";
+        alert(errorMsg);
+    }
+
+})();

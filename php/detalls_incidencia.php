@@ -110,6 +110,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['ID_Incidencia'])) {
         </table>
     <?php endif; ?>
 </div>
+<script>
+    const numResultados = <?= count($resultados) ?>;
+    const busquedaRealizada = <?= $busqueda_realizada ? 'true' : 'false' ?>;
+    const idABuscar = "<?= isset($id_a_buscar) ? $id_a_buscar : '' ?>";
+</script>
+<script src="js/error_detalls.js"></script>
 </body>
 </html>
 
