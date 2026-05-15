@@ -32,18 +32,11 @@ $deptsArray = array();
 </head>
 <body>
 
-<div class="encabezado">
-    <a href="index.php"><img src="img/logo.png" style="height:90px;position:absolute;top:50%;right:32px;transform:translateY(-50%);" alt="Logo"></a>
-    <div class="brand">GI3P</div>
-    <h1>Institut Pedralbes</h1>
-    <p>Temps consumit per departament</p>
-</div>
-
 <div class="page-content">
-    <div class="topbar">
-        <a href="index_tecnic.php" class="btn btn-secondary">← Tornar</a>
+    <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
+        <a href="javascript:history.back()" class="btn btn-secondary"> Tornar</a>
     </div>
-    <h2 class="page-title">Estadístiques per departament</h2>
+    <h1>Estadístiques per departament</h1>
 
     <div style="max-width: 380px; margin: 0 auto 40px auto;">
         <canvas id="myChart"></canvas>
@@ -121,5 +114,8 @@ $deptsArray = array();
 </script>
 
 <?php $conn->close(); ?>
+ <?php
+    include_once "footer.php";
+    ?>
 </body>
 </html>

@@ -18,11 +18,11 @@ $tipo = $_GET['tipo'] ?? '';
 <body>
 <div class="page-content" style="height: 100%;">
     <h1>Llistat d'incidències</h1>
-    <div class="topbar" style="margin: 15px;">
-         <a href="index_admin.php" class="btn btn-secondary"> Tornar</a>
+    <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
+         <a href="javascript:history.back()" class="btn btn-secondary"> Tornar</a>
         <a href="crear_incidencia.php" class="btn btn-primary">Nova incidència</a>
     </div>
-    <div class="mb-3">
+    <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
         <span>Ordenar per: </span>
         <a href = "llistar.php?orden=prioritat" class="btn btn-secondary">Prioritat</a>
         <a href="llistar.php?orden=data" class="btn btn-secondary">Data Inici</a>
@@ -37,9 +37,17 @@ $tipo = $_GET['tipo'] ?? '';
         }
     }
     $incidencies = [];
-    $sql = "SELECT i.ID_Incidencia, i.ID_Tecnic, i.Descripcio, t.Nom AS Categoria, i.Data_Inici, i.Data_FIN, i.Prioridad
+    $sql = "SELECT 
+            i.ID_Incidencia, 
+            i.Descripcio, 
+            i.Data_Inici, 
+            i.Data_FIN, 
+            i.Prioridad, 
+            tip.Nom AS Categoria, 
+            tec.Nom AS Nom_Tecnic -- Aquí definimos la clave que usaremos luego
         FROM INCIDENCIA i
-        INNER JOIN TIPOLOGIA t ON i.ID_Tipo = t.ID_Tipo
+        INNER JOIN TIPOLOGIA tip ON i.ID_Tipo = tip.ID_Tipo
+        LEFT JOIN TECNIC tec ON i.ID_Tecnic = tec.ID_Tecnic 
         ORDER BY $criteri_ordenacio";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
@@ -76,7 +84,7 @@ $tipo = $_GET['tipo'] ?? '';
                 ?>
                 <tr class="<?php echo $color; ?>">
                     <td><span style="font-family:'DM Mono',monospace;font-size:13px;">#<?= $incidencia['ID_Incidencia'] ?></span></td> 
-                    <td><?= $incidencia['ID_Tecnic'] ? htmlspecialchars($incidencia['ID_Tecnic']) : '<span class="text-muted">—</span>' ?></td>
+                    <td><?= !empty($incidencia['Nom_Tecnic']) ? htmlspecialchars($incidencia['Nom_Tecnic']) : '<span class="text-muted">Sense assignar</span>' ?></td>
                     <td><?= htmlspecialchars($incidencia['Descripcio']) ?></td>
                     <td><?= htmlspecialchars($incidencia['Categoria']) ?></td>
                     <td><?= htmlspecialchars($incidencia['Data_Inici']) ?></td>
@@ -91,13 +99,14 @@ $tipo = $_GET['tipo'] ?? '';
         <div class="alert alert-info">No hi ha incidències a mostrar.</div>
     <?php endif; ?>
 
-    <?php $conn->close(); 
-    include_once "footer.php";?>
+    <?php $conn->close();?>
 </div>
-<script>
+ <?php
+    include_once "footer.php";
+    ?>
+    <script>
     window.phpMessage = "<?= htmlspecialchars($msg, ENT_QUOTES, 'UTF-8') ?>";
     window.phpMessageType = "<?= htmlspecialchars($tipo, ENT_QUOTES, 'UTF-8') ?>";
 </script>
-<script src="js/errors_esborrar.js"></script>
 </body>
 </html>

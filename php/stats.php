@@ -260,7 +260,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
     <!-- ── TOPBAR ─────────────────────────────────────────────────────── -->
     <div class="topbar">
-        <a href="index_admin.php" class="btn btn-secondary">Inici</a>
+        <a href="index_admin.php" class="btn btn-secondary">Tornar</a>
     </div>
     <h1>Panell d'estadístiques d'accés</h1>
 
@@ -551,5 +551,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 
 </div><!-- .page-content -->
+<?php
+include_once "footer.php";
+?>
 </body>
 </html>

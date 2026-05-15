@@ -56,7 +56,7 @@ function crear_incidencia($conn)
 </head>
 <body>
     <div class="page-content" style="max-width: 50%, height: 100%;">
-        <div class="topbar" style="margin: 15px;">
+          <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
             <a href="index_client.php" class="btn btn-secondary">Tornar</a>
         </div>
 

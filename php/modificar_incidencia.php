@@ -57,16 +57,16 @@ include_once "header.php";
 <body>
 
 <div class="page-content" style="height: 100%; width: 100%;">
-    <div class="topbar" style="margin: 15px;">
+    <div class="topbar d-flex justify-content-start w-100" style="padding: 15px;margin-bottom: 0px;">
         <a href="#" onclick="history.back(); return false;" class="btn btn-secondary"> Tornar</a> 
     </div>
-
-    <h1>Modificar Incidències</h1>
+    <div class="container flex-grow-1 d-flex flex-column justify-content-start align-items-center my-4 col-12 col-md-11 col-lg-10">
+        <h1>Modificar Incidències</h1>
 
     <?php if (isset($missatge)): ?>
         <div class="alert alert-<?= $missatge_tipus ?>"><?= htmlspecialchars($missatge) ?></div>
     <?php endif; ?>
-
+        
     <div style="overflow-x: auto;">
         <table class="data-table" style="width: 100%">
             <thead>
@@ -92,7 +92,7 @@ include_once "header.php";
                         <td><span class="badge badge-other text-dark"><?= htmlspecialchars($row['Nom'] ?? 'Sense tipus') ?></span></td>
                         <td><span class="badge badge-other text-dark"><?= htmlspecialchars($row['Nom_Tecnic'] ?? 'No assignat') ?></span></td>
                         <td>
-                            <form method="POST" action="" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
+                            <form method="POST" action="llistar.php" id="form_<?= $row['ID_Incidencia'] ?>" onsubmit="return validarFormulario(this)">
                                 <input type="hidden" name="ID_Incidencia" value="<?= $row['ID_Incidencia'] ?>">
 
                                 <select name="ID_Tecnic" required>
@@ -137,6 +137,8 @@ include_once "header.php";
             </tbody>
         </table>
     </div>
+</div>
+    
 </div>
 <?php
 include_once "footer.php";

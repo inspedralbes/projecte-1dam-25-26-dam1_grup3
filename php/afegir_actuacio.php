@@ -118,7 +118,7 @@ error_reporting(E_ALL);
                         <label for="Data_Actuacio" class="form-label">Data de actuacio</label>
                         <input type="text" id="Data_Actuacio" class="form-control" name="Data_Actuacio" required placeholder="2024-12-31">
                     </div>
-                    <button class="btn btn-success">Crear</button></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Crear</button>
             </form>
         </div>
         </div>

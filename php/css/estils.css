@@ -361,15 +361,22 @@ body {
   display: flex;
   flex-direction: column;
 }
-.page-content {
-    flex: 1 0 auto;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
 main, .main-container, .content { 
     flex: 1; 
+}
+
+.page-content, .container.flex-grow-1 {
+    flex: 1 0 auto;
+}
+.page-content {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+footer {
+    flex-shrink: 0;
 }
