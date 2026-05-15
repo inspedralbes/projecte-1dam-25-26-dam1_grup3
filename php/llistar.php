@@ -56,7 +56,6 @@ $tipo = $_GET['tipo'] ?? '';
                     <th>Data Inici</th>
                     <th>Data Final</th>
                     <th>Prioritat</th>
-                    <th>Accions</th>
                 </tr>
         </thead> 
             <tbody>
@@ -83,11 +82,7 @@ $tipo = $_GET['tipo'] ?? '';
                     <td><?= htmlspecialchars($incidencia['Data_Inici']) ?></td>
                     <td><?= $incidencia['Data_FIN'] ? htmlspecialchars($incidencia['Data_FIN']) : '<span class="text-muted">—</span>' ?></td>
                     <td><?= htmlspecialchars($incidencia['Prioridad']) ?></td>
-                    <td>
-                        <a href="esborrar.php?id=<?= $incidencia['ID_Incidencia'] ?>" class="btn btn-sm btn-danger"
-                           onclick="return confirm('Segur que vols esborrar la incidència #<?= $incidencia['ID_Incidencia'] ?>?')">Esborrar</a>
-                        <a href="modificar_incidencia.php?id=<?= $incidencia['ID_Incidencia'] ?>" class="btn btn-sm btn-secondary" onclick="return confirm('Segur que vols modificar la incidència #<?= $incidencia['ID_Incidencia'] ?>?')">Modificar</a>
-                    </td>
+
                 </tr>
                <?php endforeach; ?>
             </tbody>
