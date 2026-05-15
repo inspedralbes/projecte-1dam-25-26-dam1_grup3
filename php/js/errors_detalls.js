@@ -1,17 +1,24 @@
-(function() {
-    const formulario = document.querySelector('form');
-    if (formulario) {
-        formulario.addEventListener('submit', function(e) {
-            const idInput = document.getElementById('ID_Incidencia').value;
-            if (idInput.trim() === "") {
-                alert("Per favor, introdueix un ID d'incidència.");
-                e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const inputID = document.getElementById('ID_Incidencia');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            const valor = inputID.value.trim();
+            if (valor === "") {
+                alert("Si us plau, introdueix un ID d'incidència.");
+                event.preventDefault();
+                return;
+            }
+            if (parseInt(valor) <= 0) {
+                alert("L'ID d'incidència ha de ser un número positiu.");
+                event.preventDefault();
+                return;
             }
         });
     }
-    if (busquedaRealizada && numResultados === 0) {
-        const errorMsg = "No hi ha actuacions visibles per a la incidència #" + idABuscar + ".";
-        alert(errorMsg);
+    if (typeof busquedaRealizada !== 'undefined' && busquedaRealizada) {
+        if (typeof numResultados !== 'undefined' && numResultados === 0) {
+            console.log("Cerca finalitzada: No s'han trobat actuacions per a l'ID " + idABuscar);
+        }
     }
-
-})();
+});

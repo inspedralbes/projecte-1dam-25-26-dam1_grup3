@@ -1,27 +1,21 @@
-function validarTecnic(formulari) {
-    const formData = new FormData(formulari);
-    const dades = Object.fromEntries(formData.entries());
-    if (!dades.ID_Tecnic) {
-        alert("Si us plau, seleccioni un tècnic.");
+function validarFormulario(formulari) {
+    const idInci = f.querySelector('input[name="ID_Incidencia"]').value;
+    const idTecnic = f.querySelector('select[name="ID_Tecnic"]').value;
+    const prioritat = document.querySelector(`select[name="Prioridad"][form="form_${idInci}"]`).value;
+    const idTipo = document.querySelector(`select[name="ID_Tipo"][form="form_${idInci}"]`).value;
+    if (!idTecnic || idTecnic === "") {
+        alert("Has de seleccionar un tècnic per a la incidència #" + idInci);
         return false;
     }
-    if (!dades.ID_Incidencia) {
-        alert("No es troba l'ID de la incidència.");
+    if (!idTipo || idTipo === "") {
+        alert("Has de seleccionar un tipus de categoria.");
         return false;
     }
-    const confirmar = confirm(`Assignar tècnic a la incidència #${dades.ID_Incidencia}?`);
+    const confirmar = confirm(`Estàs segur que vols actualitzar la incidència #${idInci}?\n\n- Tècnic: ${idTecnic}\n- Prioritat: ${prioritat}\n- Tipus: ${idTipo}`);
     
     if (confirmar) {
         return true;
     } else {
-        return false
+        return false;
     }
-}
-var missatge_tipus = "";
-if (missatge.length > 0) {
-    missatge_tipus = "failure";
-    alert("No es pot deixar el missatge buit.");
-} else {
-    missatge_tipus = "success";
-    alert("Incidencia modificada correctament!")
-}
+};

@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualitzar'])) {
     exit();
     } else {
         $missatge = "Error en actualitzar: " . $conn->error;
-        $missatge_tipus = "error";
+        $missatge_tipus = "danger";
         $stmt_upd->close();
     }
 }
@@ -118,7 +118,7 @@ include_once "header.php";
                         </td>
 
                         <td>
-                            <select name="ID_Tipo" form="form_<?= $row['ID_Incidencia'] ?>" required>
+                            <select name="ID_Tipo" required form="form_<?= $row['ID_Incidencia'] ?>">
                                 <option value="">Selecciona tipus…</option>
                                 <?php $tipus->data_seek(0); while ($t = $tipus->fetch_assoc()): ?>
                                     <option value="<?= $t['ID_Tipo'] ?>"><?= htmlspecialchars($t['Nom']) ?></option>
