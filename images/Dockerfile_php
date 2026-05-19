@@ -1,0 +1,28 @@
+FROM php:apache
+
+# Extensions per MySQL
+RUN docker-php-ext-install pdo_mysql mysqli
+
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Paquets del sistema necessaris
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    unzip \
+    zip \
+    git \
+    libssl-dev \
+    pkg-config \
+    && docker-php-ext-install pdo_mysql zip
+    
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+RUN chown -R www-data:www-data /var/www/html
+
+# Extensió MongoDB per PHP (via PECL)
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
